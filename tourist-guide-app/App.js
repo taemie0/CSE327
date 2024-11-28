@@ -1,12 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+// Import screens
+// import Login from './login';
+// import Signup from './signup';
 import ViewReviews from './viewReview';
+
 
 export default function App() {
   return (
     <View style={styles.container}>
+      {/* <Text>Hello I am Tonmoy Biswas</Text> */}
+      {/* <Login></Login>
+      <Signup></Signup> */}
       <ViewReviews></ViewReviews>
-      {/* <Text>Hello Tonmoy Biswas</Text> */}
       <StatusBar style="auto" />
     </View>
   );

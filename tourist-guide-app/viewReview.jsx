@@ -3,10 +3,10 @@ import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
 
 // Dummy reviews data
 const reviews = [
-  { id: '1', rating: 4, comment: 'Great place to visit, really enjoyed the scenery!', user: 'John Doe' },
-  { id: '2', rating: 5, comment: 'Amazing experience! Highly recommend.', user: 'Jane Smith' },
-  { id: '3', rating: 3, comment: 'It was okay, but could have been cleaner.', user: 'Alex Johnson' },
-  { id: '4', rating: 5, comment: 'A beautiful spot, perfect for family outings.', user: 'Maria Lee' },
+  { id: '1', rating: 9, comment: 'Great place to visit', user: 'Tonmoy' },
+  { id: '2', rating: 6, comment: 'Amazing experience!', user: 'Turjo' },
+  { id: '3', rating: 7, comment: 'It was Awsome', user: 'Hasan' },
+  { id: '4', rating: 10, comment: 'A beautiful spot', user: 'Jawad' },
 ];
 
 // Component to display a single review card
