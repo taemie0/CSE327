@@ -4,6 +4,7 @@ module.exports = {
     "./App.js", // Include the main app entry point
     "./src/**/*.{js,ts,jsx,tsx}", // Include all files in the `src` folder
   ],
+  presets: [require("nativewind/preset")],
   theme: {
     extend: {},
   },
