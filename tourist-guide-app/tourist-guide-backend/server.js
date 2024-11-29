@@ -16,7 +16,7 @@ const reviewsData = {
     { rating: 6, comment: 'Amazing experience!', user: 'Turjo' },
   ],
   'Mountain': [
-    { rating: 7, comment: 'It was awesome', user: 'Hasan' },
+    { rating: 7, comment: 'It was awesome', user: 'Tonmoy' },
     { rating: 10, comment: 'A beautiful spot', user: 'Jawad' },
   ],
   'Park': [
