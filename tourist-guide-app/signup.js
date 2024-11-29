@@ -23,8 +23,12 @@ const Signup = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
+      {/* App name at the top */}
+      <Text style={styles.appName}>Tourist Guide App</Text>
 
+      {/* Sign Up form */}
+      <Text style={styles.title}>Sign Up</Text>
+      
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -53,7 +57,10 @@ const Signup = ({ navigation }) => {
 
       <Text style={styles.loginText}>
         Already have an account?{' '}
-        <Text style={styles.link} onPress={() => navigation.navigate('Login')}>
+        <Text
+          style={styles.link}
+          onPress={() => navigation.navigate('Login')}
+        >
           Login
         </Text>
       </Text>
@@ -67,13 +74,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#f7f7f7',
+    backgroundColor: 'red', // Set background color to red
+  },
+  appName: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginBottom: 40,
+    color: '#fff', // White color for contrast against the red background
+    textAlign: 'center',
   },
   title: {
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#333',
+    color: '#fff', // White for contrast against the red background
   },
   input: {
     width: '100%',
@@ -100,7 +114,7 @@ const styles = StyleSheet.create({
   loginText: {
     marginTop: 15,
     fontSize: 16,
-    color: '#333',
+    color: '#fff', // Changed to white for contrast
   },
   link: {
     color: '#0066cc',

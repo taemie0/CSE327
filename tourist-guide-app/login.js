@@ -14,36 +14,43 @@ const Login = ({ navigation }) => {
     Alert.alert('Success', 'Login successful!');
   };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.signupText}>
-        Don't have an account?{' '}
-        <Text style={styles.link} onPress={() => navigation.navigate('Signup')}>
-          Sign up
-        </Text>
-      </Text>
-    </View>
+  return React.createElement(
+    View,
+    { style: styles.container },
+    React.createElement(Text, { style: styles.headerText }, 'Tourist Guide App'), // Added the app name here
+    React.createElement(Text, { style: styles.title }, 'Login'),
+    React.createElement(TextInput, {
+      style: styles.input,
+      placeholder: 'Email',
+      value: email,
+      onChangeText: setEmail,
+      keyboardType: 'email-address',
+    }),
+    React.createElement(TextInput, {
+      style: styles.input,
+      placeholder: 'Password',
+      value: password,
+      onChangeText: setPassword,
+      secureTextEntry: true,
+    }),
+    React.createElement(
+      TouchableOpacity,
+      { style: styles.button, onPress: handleLogin },
+      React.createElement(Text, { style: styles.buttonText }, 'Login')
+    ),
+    React.createElement(
+      Text,
+      { style: styles.signupText },
+      "Don't have an account? ",
+      React.createElement(
+        Text,
+        {
+          style: styles.link,
+          onPress: () => navigation.navigate('Signup'),
+        },
+        'Sign up'
+      )
+    )
   );
 };
 
@@ -53,7 +60,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#f7f7f7',
+    backgroundColor: 'red', // Set background to red
+  },
+  headerText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 40, // Spacing from the title
+    color: '#fff', // White text for the header
+    textAlign: 'center',
   },
   title: {
     fontSize: 30,
