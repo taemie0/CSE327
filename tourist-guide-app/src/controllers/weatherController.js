@@ -53,28 +53,56 @@ export const getLocations = async (params) => {
   }
 };
 
-// Function to fetch weather alerts for a specific location
-export const getAlerts = async (params) => {
-  try {
-    // Fetch the alerts data from the model
-    const alertsData = await fetchAlertsData(params);
+// // Function to fetch weather alerts for a specific location
+// export const getAlerts = async (params) => {
+//   try {
+//     // Fetch the alerts data from the model
+//     const alertsData = await fetchAlertsData(params);
 
-    if (!alertsData) {
-      throw new Error('Failed to retrieve weather alerts');
+//     if (!alertsData) {
+//       throw new Error('Failed to retrieve weather alerts');
+//     }
+
+//     // // Process or transform the alerts data if needed
+//     // const alerts = alertsData.alerts.map(alert => ({
+//     //   title: alert.headline,
+//     //   description: alert.description,
+//     //   severity: alert.severity,
+//     //   effectiveDate: alert.effective,
+//     // }));
+
+//     // return alerts; // Return the processed alerts data to the View
+//     return alertsData;
+//   } catch (error) {
+//     console.error('Error in getAlerts:', error);
+//     throw error;
+//   }
+// };
+
+
+// Function to fetch weather alerts for a specific city
+export const getWeatherAlerts = async (cityName) => {
+  try {
+    const response = await axios.get(alertsEndpoint({ cityName }));
+
+    const alerts = response.data.alerts?.alert; // Extract alerts from the response
+    if (!alerts || alerts.length === 0) {
+      return null; // No alerts available
     }
 
-    // // Process or transform the alerts data if needed
-    // const alerts = alertsData.alerts.map(alert => ({
-    //   title: alert.headline,
-    //   description: alert.description,
-    //   severity: alert.severity,
-    //   effectiveDate: alert.effective,
-    // }));
-
-    // return alerts; // Return the processed alerts data to the View
-    return alertsData;
+    // Return relevant details of each alert
+    return alerts.map(alert => ({
+      headline: alert.headline,
+      severity: alert.severity,
+      event: alert.event,
+      description: alert.desc,
+      instruction: alert.instruction,
+      areas: alert.areas,
+      effective: alert.effective,
+      expires: alert.expires
+    }));
   } catch (error) {
-    console.error('Error in getAlerts:', error);
-    throw error;
+    console.error('Error fetching weather alerts:', error);
+    return null;
   }
 };

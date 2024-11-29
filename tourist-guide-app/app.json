@@ -24,7 +24,8 @@
       "statusBar": {
         "hidden": true,
         "translucent": true
-      }
+      },
+      "package": "com.anonymous.touristguideapp"
     },
     "web": {
       "favicon": "./src/assets/icons/favicon.png"

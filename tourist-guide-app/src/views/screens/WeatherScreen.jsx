@@ -81,8 +81,8 @@ export default function HomeScreen() {
       {/* Background Image */}
       <Image
         blurRadius={70}
-        source={require('../../assets/images/bg.png')} // Adjust the path as needed
-        className="absolute w-full h-full" // Tailwind classes
+        source={require('../../assets/images/bg.png')}
+        className="absolute w-full h-full"
         resizeMode="cover"
       />
       {loading ? (
