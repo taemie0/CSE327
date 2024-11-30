@@ -10,7 +10,9 @@ const usePushNotification = () => {
       if (status === 'granted') {
         const token = await Notifications.getExpoPushTokenAsync();
         setExpoPushToken(token.data);
-        console.log('Token data',token.data);
+        console.log('Token data', token.data);
+      } else {
+        console.log('Permission not granted for push notifications');
       }
     };
 

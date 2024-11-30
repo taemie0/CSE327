@@ -13,22 +13,34 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.touristguideapp",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "fetch",
+          "remote-notification"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/icons/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "fullscreen": true,
-      "statusBar": {
-        "hidden": true,
-        "translucent": true
-      },
       "package": "com.anonymous.touristguideapp"
+    },
+    "notification": {
+      "icon": "./src/assets/icons/notification-icon.png",
+      "color": "#000000"
     },
     "web": {
       "favicon": "./src/assets/icons/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1cc27b3d-e1d4-42a0-8923-b5685dd0e0a1"
+      }
+    },
+    "owner": "taemie"
   }
 }

@@ -19,6 +19,8 @@ export const sendPushNotification = async (expoPushToken, alert) => {
     const responseData = await response.json();
     if (responseData.error) {
       console.error('Error sending push notification:', responseData.error);
+    } else {
+      console.log('Push notification sent successfully');
     }
   } catch (error) {
     console.error('Error sending push notification:', error);
