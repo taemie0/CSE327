@@ -9,18 +9,13 @@ import Signup from "./signup";
 import ViewReviews from "./viewReview";
 import Dashboard from "./dashboard";
 import AlertPreferences from "./setAlertPreferences";
+import SetAlertPreferences from "./setAlertPreferences";
 
 const Stack = createStackNavigator(); // Create the Stack Navigator
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Dashboard">
-          <Stack.Screen name="Dashboard" component={Dashboard} />
-          <Stack.Screen name="AlertPreferences" component={AlertPreferences} />
-        </Stack.Navigator>
-      </NavigationContainer>
       {/* <Text>Hello I am Tonmoy Biswas</Text> */}
       {/* for login */}
       {/* <Login></Login> */}
@@ -28,6 +23,8 @@ export default function App() {
       {/* <Signup></Signup> */}
       {/* for view reviews */}
       {/* <ViewReviews place="Mountain" /> */}
+      {/* for setPreferences */}
+      {/* <SetAlertPreferences></SetAlertPreferences> */}
       <StatusBar style="auto" />
     </View>
   );

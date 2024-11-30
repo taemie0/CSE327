@@ -1,191 +1,128 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
-import CheckBox from "@react-native-community/checkbox"; // Import checkbox
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  ActivityIndicator,
+  Alert,
+} from "react-native";
 
-const AlertPreferences = ({ route }) => {
-  // Retrieve email and location from the route params passed from Dashboard
-  const { email, location } = route.params;
+// --- VIEW ---
+const SetAlertPreferences = () => {
+  // State variables for user input and app status
+  const [email, setEmail] = useState("");
+  const [location, setLocation] = useState("");
+  const [preferences, setPreferences] = useState(""); // Example: "Sudden weather changes"
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const [weather, setWeather] = useState(null); // Weather data
-  const [error, setError] = useState(null); // Error handling
-  const [alerts, setAlerts] = useState({
-    // Weather alert preferences
-    weatherChange: false,
-    highTemp: false,
-    rain: false,
-  });
-
-  const apiKey = "YOUR_API_KEY"; // Replace with your WeatherAPI key
-
-  // Fetch weather data for the given location when component mounts or location changes
-  useEffect(() => {
-    const fetchWeather = async () => {
-      if (!location) {
-        Alert.alert("Please enter a location");
-        return;
-      }
-
-      try {
-        const response = await fetch(
-          `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}`
-        );
-        const data = await response.json();
-
-        if (response.ok) {
-          setWeather(data);
-        } else {
-          setError(data.error.message || "Error fetching weather data");
-        }
-      } catch (err) {
-        setError("Failed to fetch weather data");
-      }
-    };
-
-    fetchWeather();
-  }, [location]); // Re-fetch weather data if location changes
-
-  // Handle change in alert preferences
-  const handleAlertChange = (alertType) => {
-    setAlerts((prevState) => ({
-      ...prevState,
-      [alertType]: !prevState[alertType],
-    }));
-  };
-
-  // Handle form submission and show selected preferences
-  const handleSavePreferences = () => {
-    if (!weather) {
-      Alert.alert("Please fetch weather data first.");
+  // --- CONTROLLER ---
+  const handleSavePreferences = async () => {
+    if (!email || !location || !preferences) {
+      setError("All fields are required.");
       return;
     }
+    setError("");
+    setLoading(true);
 
-    const selectedAlerts = [];
-    if (alerts.weatherChange) selectedAlerts.push("Weather Change");
-    if (alerts.highTemp) selectedAlerts.push("High Temperature Alert");
-    if (alerts.rain) selectedAlerts.push("Rain Alert");
+    try {
+      // Call the backend API to save preferences
+      const response = await fetch("http://localhost:3000/savePreferences", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, location, preferences }),
+      });
 
-    if (selectedAlerts.length === 0) {
-      Alert.alert("No alerts selected");
-      return;
+      const data = await response.json();
+
+      if (response.ok) {
+        Alert.alert("Success", "Your preferences have been saved.");
+        setEmail("");
+        setLocation("");
+        setPreferences("");
+      } else {
+        throw new Error(data.error || "Failed to save preferences.");
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-
-    // For demonstration, alert the selected preferences
-    Alert.alert(
-      "Alert Preferences Saved",
-      `Alerts: ${selectedAlerts.join(", ")}`
-    );
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Welcome {email}</Text>{" "}
-      {/* Show the user's email */}
+      <Text style={styles.title}>Set Weather Alert Preferences</Text>
+
+      {/* Email Input */}
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your email address"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+      />
+
       {/* Location Input */}
-      <Text style={styles.locationText}>Location: {location}</Text>
-      {/* Weather data */}
-      {error && <Text style={styles.error}>{error}</Text>}
-      {weather && (
-        <View style={styles.weatherInfo}>
-          <Text style={styles.weatherText}>
-            Location: {weather.location.name}
-          </Text>
-          <Text style={styles.weatherText}>
-            Temperature: {weather.current.temp_c}°C
-          </Text>
-          <Text style={styles.weatherText}>
-            Condition: {weather.current.condition.text}
-          </Text>
-        </View>
-      )}
-      {/* Alert Preferences */}
-      <View style={styles.alertSection}>
-        <Text style={styles.alertTitle}>Alert Preferences</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter location (e.g., city name)"
+        value={location}
+        onChangeText={setLocation}
+      />
 
-        <View style={styles.checkboxContainer}>
-          <CheckBox
-            value={alerts.weatherChange}
-            onValueChange={() => handleAlertChange("weatherChange")}
-          />
-          <Text style={styles.checkboxText}>Weather Change</Text>
-        </View>
+      {/* Preferences Input */}
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your alert preferences (e.g., sudden weather changes)"
+        value={preferences}
+        onChangeText={setPreferences}
+      />
 
-        <View style={styles.checkboxContainer}>
-          <CheckBox
-            value={alerts.highTemp}
-            onValueChange={() => handleAlertChange("highTemp")}
-          />
-          <Text style={styles.checkboxText}>High Temperature Alert</Text>
-        </View>
+      {/* Save Preferences Button */}
+      <Button title="Save Preferences" onPress={handleSavePreferences} />
 
-        <View style={styles.checkboxContainer}>
-          <CheckBox
-            value={alerts.rain}
-            onValueChange={() => handleAlertChange("rain")}
-          />
-          <Text style={styles.checkboxText}>Rain Alert</Text>
-        </View>
+      {/* Loading Indicator */}
+      {loading && <ActivityIndicator size="large" color="#0000ff" />}
 
-        <Button title="Save Preferences" onPress={handleSavePreferences} />
-      </View>
+      {/* Error Message */}
+      {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>
   );
 };
 
+// --- STYLES ---
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center",
     padding: 20,
-    backgroundColor: "red",
+    justifyContent: "center",
+    backgroundColor: "#f5f5f5",
   },
-  header: {
+  title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#fff",
-    marginBottom: 20,
     textAlign: "center",
+    marginBottom: 20,
   },
-  locationText: {
-    fontSize: 18,
-    color: "#fff",
-    marginBottom: 10,
+  input: {
+    height: 50,
+    borderColor: "#ddd",
+    borderWidth: 1,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    fontSize: 16,
   },
   error: {
     color: "red",
     marginTop: 10,
-    fontSize: 16,
-  },
-  weatherInfo: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-  },
-  weatherText: {
-    fontSize: 18,
-    color: "#333",
-  },
-  alertSection: {
-    marginTop: 30,
-    width: "100%",
-    padding: 20,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-  },
-  alertTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  checkboxText: {
-    fontSize: 18,
+    textAlign: "center",
   },
 });
 
-export default AlertPreferences;
+export default SetAlertPreferences;

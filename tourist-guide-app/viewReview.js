@@ -1,32 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 
-const ViewReviews = ({ place }) => {
+// ---- MODEL ----
+const fetchReviewsData = async (place) => {
+  try {
+    // Replace 'localhost' with your IP address if on a physical device
+    const response = await fetch(`http://localhost:5000/reviews/${place}`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Error fetching reviews");
+    }
+
+    return data;
+  } catch (error) {
+    throw new Error("Error fetching reviews");
+  }
+};
+
+// ---- CONTROLLER ----
+const useReviewsController = (place) => {
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchReviews = async () => {
+    const loadReviews = async () => {
       try {
-        // Replace 'localhost' with your IP address if on a physical device
-        const response = await fetch(
-          `http://localhost:5000/reviews/${place}`
-        );
-        const data = await response.json();
-
-        if (response.ok) {
-          setReviews(data);
-        } else {
-          setError(data.message || "Error fetching reviews");
-        }
+        const data = await fetchReviewsData(place); // Call Model
+        setReviews(data); // Update the state with fetched reviews
       } catch (err) {
-        setError("Error fetching reviews");
+        setError(err.message); // Handle errors from the Model
       }
     };
 
-    fetchReviews();
+    loadReviews(); // Trigger the data fetching on component mount
   }, [place]);
 
+  return { reviews, error }; // Return the state to the View
+};
+
+// ---- VIEW ----
+const ViewReviews = ({ place }) => {
+  const { reviews, error } = useReviewsController(place); // Use Controller to fetch data
+
+  // If there's an error, display it
   if (error) {
     return (
       <View style={styles.container}>
@@ -35,6 +52,7 @@ const ViewReviews = ({ place }) => {
     );
   }
 
+  // If data is fetched successfully, display the reviews
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{place} Reviews</Text>
@@ -53,6 +71,7 @@ const ViewReviews = ({ place }) => {
   );
 };
 
+// ---- STYLES ----
 const styles = StyleSheet.create({
   container: {
     flex: 1,
