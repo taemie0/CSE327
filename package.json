@@ -7,7 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "docs": "jsdoc -c jsdoc.json"
+    "docs": "nodemon --exec 'npm jsdoc -c jsdocConfig.json' --watch ./src"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^7.0.13",
