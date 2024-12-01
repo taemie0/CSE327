@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": ["src"],
+    "include": ["src", "App.js"],  
     "includePattern": ".js$",
     "excludePattern": "(node_modules|docs)"
   },
@@ -9,4 +9,3 @@
     "recurse": true
   }
 }
-

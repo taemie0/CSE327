@@ -7,6 +7,14 @@ import Profile from '../screens/Profile';
 import HomeNavigation from './HomeNavigation';
 import SearchNavigation from './SearchNavigation';
 
+/**
+ * TabNavigation component sets up the bottom tab navigation for the app.
+ * It includes three tabs: Home, Search, and Profile. Each tab has a corresponding icon and label.
+ * The Home and Search tabs use their respective navigation stacks.
+ * 
+ * @component
+ * @returns {JSX.Element} The BottomTabNavigator containing the Home, Search, and Profile screens.
+ */
 export const TabNavigation = () => {
   const Tab = createBottomTabNavigator();
   return (

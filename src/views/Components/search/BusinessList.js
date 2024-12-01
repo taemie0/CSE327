@@ -6,6 +6,18 @@ import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window'); // Get screen width for dynamic styling
 
+
+/**
+ * BusinessList component displays a horizontally scrollable list of businesses (places).
+ * Each business is represented by a `BusinessItem` component, and clicking on an item navigates to the place's details.
+ *
+ * @component
+ * @param {Object} props - The component's props.
+ * @param {Array} props.placeList - List of places/businesses to be displayed in the list.
+ * @param {Object} props.placeList[] - A place object containing information like name, address, and rating.
+ * 
+ * @returns {JSX.Element} A scrollable list of businesses with background gradient styling.
+ */
 export default function BusinessList({ placeList }) {
   const navigation = useNavigation();
 

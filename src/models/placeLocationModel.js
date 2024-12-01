@@ -2,6 +2,14 @@ import axios from 'axios';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyCVcp7SogP99WTUNxw3aaHBV86qge96fAU';
 
+/**
+ * Fetches location coordinates (latitude and longitude) based on a place name using the Google Maps Geocoding API.
+ * @async
+ * @function fetchLocationByName
+ * @param {string} placeName - The name of the place (address) to fetch coordinates for.
+ * @returns {Object|null} The location object containing latitude and longitude, or null if the location could not be fetched.
+ * @throws {Error} Throws an error if the request to the Google Maps API fails.
+ */
 export async function fetchLocationByName(placeName) {
     try {
       const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${placeName}&key=${GOOGLE_MAPS_API_KEY}`;
@@ -19,4 +27,4 @@ export async function fetchLocationByName(placeName) {
       console.error('Error fetching location by name:', error);
       return null;
     }
-  }
+}

@@ -10,10 +10,25 @@ const categories = [
   { id: '5', title: 'Attractions', icon: 'map-marker' },
 ];
 
+
+/**
+ * CategoryList component renders a list of categories and allows the user to select one.
+ * @component
+ * @param {Object} props - The component's props.
+ * @param {Function} props.setSelectedCategory - A function to update the selected category in the parent component.
+ * @returns {JSX.Element} The rendered CategoryList component.
+ */
+
 const CategoryList = ({ setSelectedCategory }) => {
   const [currentCategory, setCurrentCategory] = useState('All'); // Default to 'All'
 
-  // Function to handle category selection
+  
+  /**
+   * Handles the category selection.
+   * @function
+   * @param {Object} category - The category object that was selected.
+   * @param {string} category.title - The title of the selected category.
+   */
   const handleCategorySelect = (category) => {
     setSelectedCategory(category.title);
     setCurrentCategory(category.title);

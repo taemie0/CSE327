@@ -5,6 +5,19 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Dimensions } from 'react-native';
 import PlaceMarker from '../home/PlaceMarker';
 
+
+/**
+ * GoogleMapViewFull component renders a map view centered around the user's location,
+ * and displays markers for nearby places (from the `placeList`).
+ * It uses the `UserLocationContext` to get the user's current location and updates the map region.
+ *
+ * @component
+ * @param {Object} props - The component's props.
+ * @param {Array} props.placeList - List of places to be displayed as markers on the map.
+ * @param {Object} props.placeList[] - A place object containing information such as name and coordinates.
+ * 
+ * @returns {JSX.Element} A MapView centered around the user's location with markers for nearby places.
+ */
 export default function GoogleMapViewFull({ placeList }) {
   const [mapRegion, setMapRegion] = useState(null);  // Initialize as null
 

@@ -3,6 +3,19 @@ import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import HorizontalLine from "./HorizontalLine";
 
+ /**
+ * PlaceItem component renders a place's image, name, vicinity, and rating.
+ * It also displays a horizontal line below each item.
+ * @component
+ * @param {Object} props - The component's props.
+ * @param {Object} props.place - The place data to be displayed.
+ * @param {string} props.place.name - The name of the place.
+ * @param {string} props.place.vicinity - The vicinity of the place.
+ * @param {number} props.place.rating - The rating of the place.
+ * @param {Array} props.place.photos - An array of photos related to the place.
+ * @returns {JSX.Element} The rendered PlaceItem component.
+ */
+
 export default function PlaceItem({ place }) {
   // Fallback image URL
   const placeholderImage = require("../../../assets/icon.png");

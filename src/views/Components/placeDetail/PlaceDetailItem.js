@@ -4,6 +4,24 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import GoogleMapView from '../home/GoogleMapView';
 import Share from '../../services/Share';
 
+
+/**
+ * PlaceDetailItem component displays detailed information about a place including its name, rating, image, address, and more.
+ * It also provides options for sharing the place or getting directions.
+ * 
+ * @component
+ * @param {Object} props - The component's props.
+ * @param {Object} props.place - The place object containing details like name, rating, photos, vicinity, and opening hours.
+ * @param {string} props.place.name - The name of the place.
+ * @param {number} props.place.rating - The rating of the place (from 1 to 5).
+ * @param {Array} props.place.photos - An array of photo objects for the place.
+ * @param {Object} props.place.geometry - The geographical data for the place.
+ * @param {string} props.place.vicinity - The vicinity address of the place.
+ * @param {boolean} props.place.opening_hours.open_now - Indicates if the place is open.
+ * @param {function} props.onDirectionClick - Function to be called when the 'Direction' button is clicked.
+ * @returns {JSX.Element} The rendered PlaceDetailItem component.
+ */
+
 const PlaceDetailItem = ({ place, onDirectionClick }) => {
   return (
     <View className="p-4">

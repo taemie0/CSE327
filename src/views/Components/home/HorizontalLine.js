@@ -1,6 +1,11 @@
 import { View } from 'react-native';
 import React from 'react';
 
+/**
+ * HorizontalLine component renders a horizontal line with a specific style.
+ * @component
+ * @returns {JSX.Element} The rendered HorizontalLine component.
+ */
 export default function HorizontalLine() {
   return (
     <View className="mt-2">

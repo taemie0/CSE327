@@ -4,9 +4,18 @@ import { Entypo, AntDesign } from '@expo/vector-icons'; // Import the filter ico
 import { useState } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import "react-native-get-random-values";
-// import { v4 as uuidv4 } from "uuid";
 
-
+/**
+ * SearchBar component provides a search bar with Google Places autocomplete functionality.
+ * Users can type in a location, and the component will update the search results with place details.
+ * A clear button is also available, although it currently logs a message on press.
+ * 
+ * @component
+ * @param {Object} props - The component's props.
+ * @param {Function} props.setSearchText - Function to set the selected location's latitude and longitude.
+ * 
+ * @returns {JSX.Element} A search bar with Google Places autocomplete and a clear button.
+ */
 export default function SearchBar({setSearchText}) {
   const [searchInput,setSearchInput]=useState();
 
