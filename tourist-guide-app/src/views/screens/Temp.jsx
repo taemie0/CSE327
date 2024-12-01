@@ -17,7 +17,7 @@ export default function GoogleMapView() {
         <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }} />
       </MapView>
       <Text style={{ position: 'absolute', bottom: 30, left: 20, color: 'white' }}>
-        Umme Habiba
+        Meha
       </Text>
     </View>
   );

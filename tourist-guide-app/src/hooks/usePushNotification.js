@@ -1,6 +1,6 @@
 import * as Notifications from 'expo-notifications';
 import { useEffect, useState } from 'react';
-
+//getting the token for push notification
 const usePushNotification = () => {
   const [expoPushToken, setExpoPushToken] = useState(null);
 

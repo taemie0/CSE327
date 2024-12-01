@@ -1,7 +1,17 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
-import { weatherImages } from '../../utils';
+import { weatherImages } from '../../utils/weatherIcon';
 
+/**
+ * Displays the current weather forecast.
+ *
+ * @param {Object} props - Component properties.
+ * @param {Object} props.location - Location object.
+ * @param {Object} props.current - Current weather data.
+ * @param {Object} props.weather - Weather forecast data.
+ *
+ * @returns {JS.Element} A JS element representing the current weather forecast.
+ */
 export default function CurrentWeatherForecast({ location, current, weather }) {
   return (
     <View className="mx-4 flex justify-around flex-1 mb-4">

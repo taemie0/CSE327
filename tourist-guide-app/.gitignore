@@ -60,3 +60,6 @@ ios/DerivedData/
 Thumbs.db
 desktop.ini
 .Trash-*
+
+#git ignore the documenation
+docs/

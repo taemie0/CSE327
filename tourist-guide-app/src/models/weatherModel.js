@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { weatherApiKey } from '../utils/index';
+import { weatherApiKey } from '../utils/index.js';
 
 /**
  * Constructs the endpoint URL for fetching weather forecast data.
@@ -89,3 +89,5 @@ export const fetchAlertsData = (params) => {
   const alertUrl = alertsEndpoint(params);
   return apiCall(alertUrl);
 };
+
+

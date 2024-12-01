@@ -3,6 +3,13 @@
  *
  * This component renders the main home screen for a weather forecast application. It allows users to search for cities,
  * view current weather conditions, and check the weekly weather forecast.
+ * It uses the OpenWeatherMap API to fetch weather data for selected cities.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <WeatherScreen />
+ * )
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -18,7 +25,7 @@ import {
 } from 'react-native';
 import { theme } from '../theme/theme';
 import { debounce } from 'lodash';
-import { weatherImages } from '../../utils';
+import { weatherImages } from '../../utils/weatherIcon';
 import WeatherDayCard from '../components/WeatherDayCard';
 import CurrentWeatherForecast from '../components/CurrentWeatherForecast';
 
@@ -30,75 +37,87 @@ import { getWeatherForecast, getLocations, getAlerts } from '../../controllers/w
 import { storeData, getData } from '../../models/asyncStorage';
 
 /**
- * The main functional component for the HomeScreen.
+ * WeatherScreen component renders the weather data for the user, including the current weather,
+ * the search functionality for cities, and the weekly forecast.
+ * 
  * @function WeatherScreen
- * @returns {JS.Element} Rendered component.
+ * @returns {JS.Element} Rendered component
  */
 export default function WeatherScreen() {
   /**
    * State hooks for managing component state.
    */
-  const [showSearch, toggleSearch] = useState(false);
-  const [locations, setLocations] = useState([]);
-  const [weather, setWeather] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [showSearch, toggleSearch] = useState(false);  // State to toggle search input visibility
+  const [locations, setLocations] = useState([]);     // State to store list of matching locations from search
+  const [weather, setWeather] = useState({});          // State to store weather data
+  const [loading, setLoading] = useState(true);        // State to manage loading state
 
   /**
    * Handles the selection of a location from the search results.
-   * @param {Object} loc - Selected location object containing name and country.
+   * It fetches the weather forecast for the selected city.
+   *
+   * @param {Object} loc - The selected location object containing name and country.
+   * @param {string} loc.name - The name of the city.
+   * @param {string} loc.country - The country the city is located in.
    */
   const handleLocation = (loc) => {
-    // console.log('Location', loc);
-    setLocations([]);
-    toggleSearch(false);
-    setLoading(true);
+    setLocations([]);   // Clear previous search results
+    toggleSearch(false); // Hide search input
+    setLoading(true);    // Set loading to true while fetching data
     getWeatherForecast({ cityName: loc.name, days: '7' }).then((data) => {
-      // console.log("got forecast", data);
-      setWeather(data);
-      setLoading(false);
-      storeData('city', loc.name);
+      setWeather(data);  // Set weather data for the selected city
+      setLoading(false); // Set loading to false after data is fetched
+      storeData('city', loc.name); // Store the selected city for future use
     });
   };
 
   /**
    * Handles the search input and fetches matching locations.
-   * @param {string} value - The search input value.
+   * This function fetches the locations as the user types into the search input field.
+   *
+   * @param {string} value - The search input value (city name).
    */
   const handleSearch = (value) => {
-    console.log('Search', value);
     if (value.length > 0) {
-      // Call the controller function to fetch locations
+      // Call the controller function to fetch locations matching the search query
       getLocations({ cityName: value })
         .then((data) => {
-          // console.log('got location', data);
-          setLocations(data);
+          setLocations(data); // Update the state with the matching locations
         })
         .catch((error) => {
-          console.error('Error in fetchLocations:', error);
+          console.error('Error in fetchLocations:', error); // Handle any errors during the fetch
         });
     }
   };
 
+  /**
+   * Fetches the weather data for the saved or default city (if no city is saved).
+   * This is called when the component mounts.
+   */
   useEffect(() => {
-    // Fetch the weather forecast data
     fetchMyWeatherData();
   }, []);
 
   /**
-   * Fetches weather data for the user's saved or default city.
+   * Fetches weather data for the user's saved city or a default city.
+   * If no city is saved, it defaults to 'Lagos'.
+   * 
+   * @async
    */
   const fetchMyWeatherData = async () => {
-    let myCity = await getData('city');
-    let cityName = myCity || 'Lagos';
+    let myCity = await getData('city'); // Retrieve saved city from AsyncStorage
+    let cityName = myCity || 'Lagos'; // Use 'Lagos' as default if no city is saved
     getWeatherForecast({ cityName, days: '7' }).then((data) => {
-      // console.log('got forecast', data);
-      setWeather(data);
-      setLoading(false);
+      setWeather(data); // Update state with weather data
+      setLoading(false); // Set loading to false
     });
   };
 
   /**
    * Debounced version of the handleSearch function to improve performance.
+   * It waits for the user to stop typing for 1.2 seconds before triggering the search.
+   * 
+   * @function handleTextDebounce
    */
   const handleTextDebounce = useCallback(debounce(handleSearch, 1200), []);
 

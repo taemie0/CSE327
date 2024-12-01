@@ -1,14 +1,11 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { LogBox, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 
 // Screens
 import WeatherScreen from '../views/screens/WeatherScreen';
-// import LocationScreen from "../views/screens/LocationScreen";
-// import HomeScreen from "../views/screens/HomeScreen";
+import HomeScreen from "../views/screens/HomeScreen";
 
 // Create a stack navigator
 const Stack = createNativeStackNavigator();
@@ -17,7 +14,7 @@ const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
 // AppNavigator component
-const AppNavigator = () => {
+export default function AppNavigator () {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -33,4 +30,4 @@ const AppNavigator = () => {
   );
 };
 
-export default AppNavigator;
+// export default AppNavigator;

@@ -1,6 +1,21 @@
 import { fetchWeatherData, fetchLocationsData, fetchAlertsData } from '../models/weatherModel';
 
-// Function to fetch the weather forecast based on the city
+/**
+ * Fetches the weather forecast for a specific city or location.
+ * 
+ * This function retrieves the weather data from the weather model, processes it (if needed),
+ * and returns the data to be used in the View.
+ *
+ * @async
+ * @function getWeatherForecast
+ * @param {Object} params - Parameters for fetching weather data (e.g., city name).
+ * @returns {Object} The weather data object returned from the model.
+ * @throws {Error} Throws an error if the weather data retrieval fails.
+ * 
+ * @example
+ * // Usage example
+ * const weatherData = await getWeatherForecast({ city: 'New York' });
+ */
 export const getWeatherForecast = async (params) => {
   try {
     // Fetch the weather data from the model
@@ -19,14 +34,29 @@ export const getWeatherForecast = async (params) => {
     // };
 
     // return processedData; // Return the processed data to the View
-    return weatherData;
+    return weatherData; // Return raw weather data (or processed data if needed)
   } catch (error) {
     console.error('Error in getWeatherForecast:', error);
     throw error; // Propagate the error to be handled by the View or UI
   }
 };
 
-// Function to fetch location details (e.g., based on city name)
+/**
+ * Fetches location details based on parameters (e.g., city name).
+ * 
+ * This function retrieves location data from the model and returns it, optionally processed
+ * to return relevant details like city, region, country, etc.
+ *
+ * @async
+ * @function getLocations
+ * @param {Object} params - Parameters for fetching location data (e.g., city name).
+ * @returns {Array} An array of location objects, each containing details such as name, region, country, etc.
+ * @throws {Error} Throws an error if the location data retrieval fails.
+ * 
+ * @example
+ * // Usage example
+ * const locations = await getLocations({ city: 'New York' });
+ */
 export const getLocations = async (params) => {
   try {
     // Fetch the location data from the model
@@ -46,44 +76,35 @@ export const getLocations = async (params) => {
     // }));
 
     // return locations; // Return the processed location data to the View
-    return locationData;
+    return locationData; // Return raw location data (or processed data if needed)
   } catch (error) {
     console.error('Error in getLocations:', error);
     throw error;
   }
 };
 
-// // Function to fetch weather alerts for a specific location
-// export const getAlerts = async (params) => {
-//   try {
-//     // Fetch the alerts data from the model
-//     const alertsData = await fetchAlertsData(params);
 
-//     if (!alertsData) {
-//       throw new Error('Failed to retrieve weather alerts');
-//     }
-
-//     // // Process or transform the alerts data if needed
-//     // const alerts = alertsData.alerts.map(alert => ({
-//     //   title: alert.headline,
-//     //   description: alert.description,
-//     //   severity: alert.severity,
-//     //   effectiveDate: alert.effective,
-//     // }));
-
-//     // return alerts; // Return the processed alerts data to the View
-//     return alertsData;
-//   } catch (error) {
-//     console.error('Error in getAlerts:', error);
-//     throw error;
-//   }
-// };
-
-
-// Function to fetch weather alerts for a specific city
-export const getWeatherAlerts = async (cityName) => {
+/**
+ * Fetches weather alerts for a specific city.
+ * 
+ * This function retrieves weather alerts from an external source for a given city.
+ * It returns an array of alerts, each containing details such as headline, severity,
+ * description, etc.
+ *
+ * @async
+ * @function getWeatherAlerts
+ * @param {string} cityName - The name of the city for which weather alerts are to be fetched.
+ * @returns {Array|null} An array of weather alerts or null if no alerts are found.
+ * @throws {Error} Throws an error if fetching weather alerts fails.
+ * 
+ * @example
+ * // Usage example
+ * const alerts = await getWeatherAlerts('New York');
+ */
+export const getWeatherAlerts = async (params) => {
   try {
-    const response = await axios.get(alertsEndpoint({ cityName }));
+    // const response = await axios.get(alertsEndpoint({ params }));
+    const response = await fetchAlertsData(params);
 
     const alerts = response.data.alerts?.alert; // Extract alerts from the response
     if (!alerts || alerts.length === 0) {
@@ -103,6 +124,6 @@ export const getWeatherAlerts = async (cityName) => {
     }));
   } catch (error) {
     console.error('Error fetching weather alerts:', error);
-    return null;
+    return null; // Return null if error occurs while fetching alerts
   }
 };
