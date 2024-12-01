@@ -7,9 +7,9 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 // Screens
-import HomeScreen from '../views/screens/WeatherScreen';
+import MapLocation from '../views/screens/MapScreen';
 // import LocationScreen from "../views/screens/LocationScreen";
-// import HomeScreen from "../views/screens/HomeScreen";
+
 
 
 // Create a stack navigator
@@ -26,11 +26,11 @@ const AppNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Home"
+          name="Get Route"
           options={{
             headerShown: false,
           }}
-          component={HomeScreen}
+          component={MapScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
