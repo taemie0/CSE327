@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: viewReview.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: viewReview.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from "react";
+import { View, Text, FlatList, StyleSheet } from "react-native";
+
+// ---- MODEL ----
+
+/**
+ * Fetches review data from the backend API for a specific place.
+ * @param {string} place - The name of the place to fetch reviews for.
+ * @returns {Promise&lt;Object[]>} - A promise that resolves to an array of review data.
+ * @throws {Error} - If there is an error in fetching the reviews.
+ */
+const fetchReviewsData = async (place) => {
+  try {
+    // Replace 'localhost' with your IP address if on a physical device
+    const response = await fetch(`http://localhost:5000/reviews/${place}`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Error fetching reviews");
+    }
+
+    return data;
+  } catch (error) {
+    throw new Error("Error fetching reviews");
+  }
+};
+
+// ---- CONTROLLER ----
+
+/**
+ * Custom hook to manage the state of the reviews and errors.
+ * Fetches reviews when the place changes.
+ * @param {string} place - The name of the place to fetch reviews for.
+ * @returns {Object} - An object containing the reviews data and any error message.
+ */
+const useReviewsController = (place) => {
+  const [reviews, setReviews] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadReviews = async () => {
+      try {
+        const data = await fetchReviewsData(place); // Call Model
+        setReviews(data); // Update the state with fetched reviews
+      } catch (err) {
+        setError(err.message); // Handle errors from the Model
+      }
+    };
+
+    loadReviews(); // Trigger the data fetching on component mount
+  }, [place]);
+
+  return { reviews, error }; // Return the state to the View
+};
+
+// ---- VIEW ----
+
+/**
+ * View component that displays the reviews for a specific place.
+ * @param {Object} props - The component props.
+ * @param {string} props.place - The name of the place to display reviews for.
+ * @returns {JSX.Element} - A React component rendering the reviews or an error message.
+ */
+const ViewReviews = ({ place }) => {
+  const { reviews, error } = useReviewsController(place); // Use Controller to fetch data
+
+  // If there's an error, display it
+  if (error) {
+    return (
+      &lt;View style={styles.container}>
+        &lt;Text style={styles.errorText}>{error}&lt;/Text>
+      &lt;/View>
+    );
+  }
+
+  // If data is fetched successfully, display the reviews
+  return (
+    &lt;View style={styles.container}>
+      &lt;Text style={styles.title}>{place} Reviews&lt;/Text>
+      &lt;FlatList
+        data={reviews}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          &lt;View style={styles.card}>
+            &lt;Text style={styles.userName}>{item.user}&lt;/Text>
+            &lt;Text style={styles.rating}>Rating: {item.rating} / 10&lt;/Text>
+            &lt;Text style={styles.comment}>{item.comment}&lt;/Text>
+          &lt;/View>
+        )}
+      />
+    &lt;/View>
+  );
+};
+
+// ---- STYLES ----
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "red", // Red background
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 20,
+    color: "#fff", // White title for contrast
+  },
+  card: {
+    backgroundColor: "#fff",
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 16,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  userName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  rating: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#666",
+  },
+  comment: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 4,
+  },
+  errorText: {
+    fontSize: 20,
+    color: "#fff",
+    textAlign: "center",
+  },
+});
+
+export default ViewReviews;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Login">Login</a></li><li><a href="global.html#SetAlertPreferences">SetAlertPreferences</a></li><li><a href="global.html#Signup">Signup</a></li><li><a href="global.html#ViewReviews">ViewReviews</a></li><li><a href="global.html#fetchReviewsData">fetchReviewsData</a></li><li><a href="global.html#useReviewsController">useReviewsController</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Dec 01 2024 22:05:07 GMT+0600 (Bangladesh Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
