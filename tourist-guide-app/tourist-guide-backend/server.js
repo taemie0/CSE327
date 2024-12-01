@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+// --- VIEW ---
 // Initialize the app
 const app = express();
 
@@ -25,6 +26,7 @@ const reviewsData = {
   ]
 };
 
+// --- CONTROLLER ---
 // MongoDB Setup (commented out for now)
 /*
 const mongoose = require('mongoose');
@@ -51,9 +53,15 @@ const reviewSchema = new mongoose.Schema({
 const Review = mongoose.model('Review', reviewSchema);
 */
 
-// API routes
+// --- API ROUTES ---
 
 // GET Reviews for a specific place
+/**
+ * Retrieves reviews for a specific place.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 app.get('/reviews/:place', (req, res) => {
   const place = req.params.place;
   
@@ -69,6 +77,12 @@ app.get('/reviews/:place', (req, res) => {
 });
 
 // POST a new review (for future database integration)
+/**
+ * Adds a new review for a specific place.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 app.post('/reviews', (req, res) => {
   const { place, user, rating, comment } = req.body;
   
@@ -81,8 +95,13 @@ app.post('/reviews', (req, res) => {
   res.status(201).json({ message: 'Review added successfully', review: { place, user, rating, comment } });
 });
 
-// Server setup
+// --- SERVER SETUP ---
+// Server setup and listening on specified port
 const PORT = 5000;
+/**
+ * Starts the server and listens on the specified port.
+ * Logs a message when the server is running.
+ */
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

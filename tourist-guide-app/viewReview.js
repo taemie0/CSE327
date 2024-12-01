@@ -2,6 +2,13 @@ import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 
 // ---- MODEL ----
+
+/**
+ * Fetches review data from the backend API for a specific place.
+ * @param {string} place - The name of the place to fetch reviews for.
+ * @returns {Promise<Object[]>} - A promise that resolves to an array of review data.
+ * @throws {Error} - If there is an error in fetching the reviews.
+ */
 const fetchReviewsData = async (place) => {
   try {
     // Replace 'localhost' with your IP address if on a physical device
@@ -19,6 +26,13 @@ const fetchReviewsData = async (place) => {
 };
 
 // ---- CONTROLLER ----
+
+/**
+ * Custom hook to manage the state of the reviews and errors.
+ * Fetches reviews when the place changes.
+ * @param {string} place - The name of the place to fetch reviews for.
+ * @returns {Object} - An object containing the reviews data and any error message.
+ */
 const useReviewsController = (place) => {
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
@@ -40,6 +54,13 @@ const useReviewsController = (place) => {
 };
 
 // ---- VIEW ----
+
+/**
+ * View component that displays the reviews for a specific place.
+ * @param {Object} props - The component props.
+ * @param {string} props.place - The name of the place to display reviews for.
+ * @returns {JSX.Element} - A React component rendering the reviews or an error message.
+ */
 const ViewReviews = ({ place }) => {
   const { reviews, error } = useReviewsController(place); // Use Controller to fetch data
 

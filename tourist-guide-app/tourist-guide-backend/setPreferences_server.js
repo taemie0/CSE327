@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
+// --- VIEW ---
 // Initialize Express app
 const app = express();
 const PORT = 3000;
@@ -11,8 +12,13 @@ const PORT = 3000;
 app.use(bodyParser.json()); // Parse incoming JSON data
 app.use(cors()); // Enable CORS for frontend-backend communication
 
+// --- CONTROLLER ---
 // --- Connect to MongoDB ---
 const mongoURI = "mongodb://localhost:27017/weather_alerts"; // Replace with your MongoDB URI
+/**
+ * Connects to MongoDB using mongoose.
+ * Logs success or error message.
+ */
 mongoose
   .connect(mongoURI, {
     useNewUrlParser: true,
@@ -21,7 +27,16 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((error) => console.error("Error connecting to MongoDB:", error));
 
-// --- Define MongoDB Schema and Model ---
+// --- MODEL ---
+// Define MongoDB Schema and Model
+/**
+ * Schema definition for user alert preferences.
+ * @typedef {Object} AlertPreference
+ * @property {string} email - User's email address.
+ * @property {string} location - User's location.
+ * @property {string} preferences - User's alert preferences.
+ * @property {Date} createdAt - Date of creation (default: current time).
+ */
 const AlertPreferenceSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -41,12 +56,20 @@ const AlertPreferenceSchema = new mongoose.Schema({
   },
 });
 
+// Create the AlertPreference model
 const AlertPreference = mongoose.model(
   "AlertPreference",
   AlertPreferenceSchema
 );
 
-// --- API Endpoint to Save Alert Preferences ---
+// --- API ENDPOINTS ---
+
+/**
+ * Saves user alert preferences to MongoDB.
+ * @param {Object} req - The request object containing user preferences.
+ * @param {Object} res - The response object to return a status and message.
+ * @returns {void}
+ */
 app.post("/savePreferences", async (req, res) => {
   const { email, location, preferences } = req.body;
 
@@ -72,7 +95,12 @@ app.post("/savePreferences", async (req, res) => {
   }
 });
 
-// --- API Endpoint to Fetch All Alert Preferences ---
+/**
+ * Fetches all saved user alert preferences.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object with a list of preferences.
+ * @returns {void}
+ */
 app.get("/getPreferences", async (req, res) => {
   try {
     const preferences = await AlertPreference.find();
@@ -85,7 +113,12 @@ app.get("/getPreferences", async (req, res) => {
   }
 });
 
-// --- Start the Server ---
+// --- SERVER SETUP ---
+// Start the server
+/**
+ * Starts the Express server on the specified port.
+ * Logs the server's URL when it is running.
+ */
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

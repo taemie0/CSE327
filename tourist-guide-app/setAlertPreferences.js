@@ -10,6 +10,13 @@ import {
 } from "react-native";
 
 // --- VIEW ---
+
+/**
+ * View component for setting weather alert preferences.
+ * Allows users to input their email, location, and preferences for weather alerts.
+ * Displays loading indicators and error messages as needed.
+ * @returns {JSX.Element} - A React component to manage alert preferences input.
+ */
 const SetAlertPreferences = () => {
   // State variables for user input and app status
   const [email, setEmail] = useState("");
@@ -19,6 +26,12 @@ const SetAlertPreferences = () => {
   const [error, setError] = useState("");
 
   // --- CONTROLLER ---
+
+  /**
+   * Handles the saving of user preferences. Sends a POST request to the backend API
+   * to save email, location, and preferences. Displays error or success alerts.
+   * @returns {Promise<void>} - A promise that resolves when the preferences are saved.
+   */
   const handleSavePreferences = async () => {
     if (!email || !location || !preferences) {
       setError("All fields are required.");

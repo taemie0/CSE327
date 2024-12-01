@@ -1,11 +1,27 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
+// --- VIEW ---
+
+/**
+ * Signup component that allows users to create an account by entering their email, password, and confirming the password.
+ * Displays appropriate error messages for empty fields or mismatched passwords.
+ * @param {Object} props - The component props.
+ * @param {Object} props.navigation - The navigation object to navigate to other screens.
+ * @returns {JSX.Element} - A React component rendering the signup form.
+ */
 const Signup = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  // --- CONTROLLER ---
+
+  /**
+   * Handles the signup logic. Validates email, password, and password confirmation.
+   * If fields are valid, displays a success alert; otherwise, shows appropriate error messages.
+   * @returns {void}
+   */
   const handleSignup = () => {
     if (email === '' || password === '' || confirmPassword === '') {
       Alert.alert('Error', 'Please fill in all fields.');
@@ -68,6 +84,7 @@ const Signup = ({ navigation }) => {
   );
 };
 
+// --- STYLES ---
 const styles = StyleSheet.create({
   container: {
     flex: 1,
