@@ -1,0 +1,11 @@
+{
+  "source": {
+    "include": ["login.js", "signup.js", "viewReview.js", "setAlertPreferences.js","tourist-guide-backend\\server.js","tourist-guide-backend\\setPreferences_server.js"],
+    "includePattern": ".js$",
+    "excludePattern": "(node_modules|docs)"
+  },
+  "opts": {
+    "destination": "./docs",
+    "recurse": true
+  }
+}
