@@ -24,7 +24,7 @@ export default function App() {
       {/* for view reviews */}
       {/* <ViewReviews place="Mountain" /> */}
       {/* for setPreferences */}
-      {/* <SetAlertPreferences></SetAlertPreferences> */}
+      <SetAlertPreferences></SetAlertPreferences>
       <StatusBar style="auto" />
     </View>
   );
