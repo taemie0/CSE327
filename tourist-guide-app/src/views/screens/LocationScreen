@@ -1,0 +1,79 @@
+// LocationScreen.js
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, TextInput, Alert } from 'react-native';
+import { getLocation } from './locationUtils';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { useTailwind } from 'tailwind-rn';
+
+const LocationScreen = () => {
+  const [location, setLocation] = useState(null);
+  const [manualLocation, setManualLocation] = useState('');
+  const [usingGPS, setUsingGPS] = useState(true);
+  const tailwind = useTailwind();
+
+  useEffect(() => {
+    if (usingGPS) {
+      const fetchLocation = async () => {
+        const loc = await getLocation();
+        setLocation(loc);
+      };
+      fetchLocation();
+    }
+  }, [usingGPS]);
+
+  const handleLocationChange = (data) => {
+    // You can further process the address data here
+    setManualLocation(data.description);
+    setLocation(null); // Clear GPS location when entering manually
+  };
+
+  const handleLocationSubmit = () => {
+    if (!manualLocation) {
+      Alert.alert('Error', 'Please enter a location manually or use GPS');
+    } else {
+      setUsingGPS(false);
+    }
+  };
+
+  const handleGPSSwitch = () => {
+    setUsingGPS(true);
+    setManualLocation('');
+    setLocation(null);
+  };
+
+  return (
+    <View style={tailwind('flex-1 justify-center items-center p-4')}>
+      <Text style={tailwind('text-lg font-bold')}>Enter Location</Text>
+
+      {usingGPS ? (
+        <View style={tailwind('mt-4')}>
+          <Button title="Use GPS" onPress={handleGPSSwitch} />
+          {location && (
+            <Text style={tailwind('mt-2')}>
+              GPS Location: {location.coords.latitude}, {location.coords.longitude}
+            </Text>
+          )}
+        </View>
+      ) : (
+        <View style={tailwind('mt-4 w-full')}>
+          <GooglePlacesAutocomplete
+            placeholder="Enter location"
+            onPress={handleLocationChange}
+            query={{
+              key: 'YOUR_GOOGLE_API_KEY', // Use your Google Places API key here
+              language: 'en',
+            }}
+            onFail={error => console.error(error)}
+            debounce={200}
+            styles={{
+              textInput: tailwind('border p-2 rounded'),
+            }}
+          />
+          <Button title="Confirm Location" onPress={handleLocationSubmit} />
+        </View>
+      )}
+    </View>
+  );
+};
+
+export default LocationScreen;
