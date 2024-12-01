@@ -1,6 +1,13 @@
 import axios from 'axios';
 
-// Function to send push notification using Expo push service
+/**
+ * Sends a push notification using the Expo push notification service.
+ *
+ * @param {string} pushToken - The push token for the recipient device.
+ * @param {string} message - The message to be sent in the push notification body.
+ * @returns {Promise<Object>} The response data from the Expo API if successful.
+ * @throws {Error} Throws an error if the request to the Expo push service fails.
+ */
 export const sendPushNotification = async (pushToken, message) => {
   const notificationData = {
     to: pushToken,
