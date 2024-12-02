@@ -1,3 +1,4 @@
+// MapScreen.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, Alert, Platform } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
@@ -5,13 +6,33 @@ import * as Location from 'expo-location';
 import { getDirections, geocodeLocation } from '../services/mapService';  // Import from mapService
 import tailwind from 'tailwind-rn';  // Import tailwind
 
+/**
+ * MapScreen component allows users to view their current location on a map,
+ * enter a destination, get directions, and view the route on the map.
+ *
+ * The component requests location permissions, fetches the user's current location,
+ * and provides an interface to either input a destination manually or use the current GPS location.
+ *
+ * @component
+ * @example
+ * <MapScreen />
+ * @returns {React.Element} The rendered MapScreen component.
+ */
 const MapScreen = () => {
   const [location, setLocation] = useState(null); // User's current location
   const [destination, setDestination] = useState(''); // Destination input
   const [route, setRoute] = useState([]); // Directions/steps route
   const [routesList, setRoutesList] = useState([]); // Store multiple routes
 
-  // Request user location permission and get current position
+  /**
+   * Requests user location permission and fetches the current position.
+   * Sets the location in the component state once it's retrieved.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>} A promise that resolves when location is fetched.
+   * @throws {Error} If permission is denied or location fetching fails.
+   */
   useEffect(() => {
     const getLocation = async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -27,7 +48,14 @@ const MapScreen = () => {
     getLocation();
   }, []);
 
-  // Get Directions from mapService
+  /**
+   * Fetches directions from the map service and updates the routes list and selected route.
+   *
+   * @async
+   * @function
+   * @returns {void}
+   * @throws {Error} If either location or destination is missing or the directions fetching fails.
+   */
   const getDirectionsHandler = async () => {
     if (!location || !destination) {
       Alert.alert('Missing information', 'Please make sure both location and destination are provided.');
@@ -43,14 +71,21 @@ const MapScreen = () => {
         latitude: step.end_location.lat,
         longitude: step.end_location.lng,
       }));
-
       setRoute(firstRoute);
     } catch (error) {
       Alert.alert('Error', error.message || 'Unable to fetch directions.');
     }
   };
 
-  // Convert the destination address to coordinates
+  /**
+   * Converts a manually entered destination address to coordinates using geocoding.
+   *
+   * @async
+   * @function
+   * @param {string} manualLocation - The address entered by the user.
+   * @returns {void}
+   * @throws {Error} If geocoding fails, an error is shown.
+   */
   const handleManualLocation = async (manualLocation) => {
     try {
       const coordinates = await geocodeLocation(manualLocation);
