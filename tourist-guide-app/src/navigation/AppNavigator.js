@@ -1,32 +1,25 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { LogBox, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-
 
 // Screens
-import MapLocation from '../views/screens/MapScreen';
-// import LocationScreen from "../views/screens/LocationScreen";
-
-
+import MapScreen from '../views/screens/MapScreen';
+import HomeScreen from "../views/screens/HomeScreen";
 
 // Create a stack navigator
 const Stack = createNativeStackNavigator();
 
-
 // Ignore specific warnings
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
-
 // AppNavigator component
-const AppNavigator = () => {
+export default function AppNavigator () {
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Get Route"
+          name="Map"
           options={{
             headerShown: false,
           }}
@@ -37,10 +30,4 @@ const AppNavigator = () => {
   );
 };
 
-
-export default AppNavigator;
-
-
-
-
-
+// export default AppNavigator;
