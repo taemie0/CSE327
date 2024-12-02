@@ -9,12 +9,12 @@ const app = express();
 const PORT = 3000;
 
 // Middleware
-app.use(bodyParser.json()); // Parse incoming JSON data
-app.use(cors()); // Enable CORS for frontend-backend communication
+app.use(bodyParser.json()); 
+app.use(cors()); //for frontend-backend communication
 
 // --- CONTROLLER ---
 // --- Connect to MongoDB ---
-const mongoURI = "mongodb://localhost:27017/weather_alerts"; // Replace with your MongoDB URI
+const mongoURI = "mongodb://localhost:500/weather_alerts"; 
 /**
  * Connects to MongoDB using mongoose.
  * Logs success or error message.
@@ -28,7 +28,6 @@ mongoose
   .catch((error) => console.error("Error connecting to MongoDB:", error));
 
 // --- MODEL ---
-// Define MongoDB Schema and Model
 /**
  * Schema definition for user alert preferences.
  * @typedef {Object} AlertPreference
@@ -114,7 +113,6 @@ app.get("/getPreferences", async (req, res) => {
 });
 
 // --- SERVER SETUP ---
-// Start the server
 /**
  * Starts the Express server on the specified port.
  * Logs the server's URL when it is running.

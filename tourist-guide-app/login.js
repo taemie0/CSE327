@@ -27,7 +27,7 @@ const Login = ({ navigation }) => {
       Alert.alert('Error', 'Please fill in both fields.');
       return;
     }
-    // Handle login logic (e.g., API call) here
+    // API call
     Alert.alert('Success', 'Login successful!');
   };
 
@@ -78,13 +78,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: 'red', // Set background to red
+    backgroundColor: 'red',
   },
   headerText: {
     fontSize: 30,
     fontWeight: 'bold',
-    marginBottom: 40, // Spacing from the title
-    color: '#fff', // White text for the header
+    marginBottom: 40,
+    color: '#fff',
     textAlign: 'center',
   },
   title: {

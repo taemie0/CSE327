@@ -42,7 +42,7 @@ const SetAlertPreferences = () => {
 
     try {
       // Call the backend API to save preferences
-      const response = await fetch("http://localhost:3000/savePreferences", {
+      const response = await fetch("http://localhost:500/savePreferences", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,7 +71,7 @@ const SetAlertPreferences = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Set Weather Alert Preferences</Text>
 
-      {/* Email Input */}
+      {/* Email Input  */}
       <TextInput
         style={styles.input}
         placeholder="Enter your email address"

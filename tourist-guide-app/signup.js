@@ -33,16 +33,14 @@ const Signup = ({ navigation }) => {
       return;
     }
 
-    // Handle signup logic (e.g., API call) here
+    // Handle signup logic (API CALL)
     Alert.alert('Success', 'Account created successfully!');
   };
 
   return (
     <View style={styles.container}>
-      {/* App name at the top */}
       <Text style={styles.appName}>Tourist Guide App</Text>
 
-      {/* Sign Up form */}
       <Text style={styles.title}>Sign Up</Text>
       
       <TextInput
@@ -91,20 +89,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: 'red', // Set background color to red
+    backgroundColor: 'red',
   },
   appName: {
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 40,
-    color: '#fff', // White color for contrast against the red background
+    color: '#fff',
     textAlign: 'center',
   },
   title: {
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#fff', // White for contrast against the red background
+    color: '#fff',
   },
   input: {
     width: '100%',
@@ -131,7 +129,7 @@ const styles = StyleSheet.create({
   loginText: {
     marginTop: 15,
     fontSize: 16,
-    color: '#fff', // Changed to white for contrast
+    color: '#fff',
   },
   link: {
     color: '#0066cc',

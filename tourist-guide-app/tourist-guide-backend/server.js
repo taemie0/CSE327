@@ -3,14 +3,14 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 // --- VIEW ---
-// Initialize the app
+//initialize the express app
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// Static in-memory data for reviews (ArrayList)
+// passing some dummy data (ArrayList)
 const reviewsData = {
   'Beach': [
     { rating: 9, comment: 'Great place to visit', user: 'Tonmoy' },
@@ -95,8 +95,7 @@ app.post('/reviews', (req, res) => {
   res.status(201).json({ message: 'Review added successfully', review: { place, user, rating, comment } });
 });
 
-// --- SERVER SETUP ---
-// Server setup and listening on specified port
+// Server setup
 const PORT = 5000;
 /**
  * Starts the server and listens on the specified port.

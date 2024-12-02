@@ -18,11 +18,11 @@ export default function App() {
     <View style={styles.container}>
       {/* <Text>Hello I am Tonmoy Biswas</Text> */}
       {/* for login */}
-      {/* <Login></Login> */}
+      <Login></Login>
       {/* for register */}
-      {/* <Signup></Signup> */}
+      <Signup></Signup>
       {/* for view reviews */}
-      {/* <ViewReviews place="Mountain" /> */}
+      <ViewReviews place="Mountain" />
       {/* for setPreferences */}
       <SetAlertPreferences></SetAlertPreferences>
       <StatusBar style="auto" />

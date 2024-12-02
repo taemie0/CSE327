@@ -1,55 +1,55 @@
 import React from 'react';
-import { render, waitFor, screen } from '@testing-library/react-native'; // Use @testing-library/react-native for React Native
-import { expect } from 'chai';
-import sinon from 'sinon';
-import ViewReviews from '../viewReview'; // Adjust the path to your component
-import { fetchReviewsData } from '../viewReview'; // Adjust the path if necessary
+import { render, screen, waitFor } from '@testing-library/react-native';
+import '@testing-library/jest-dom/extend-expect'; 
+import ViewReviews from '../viewReview'; 
+
+// Mock the fetchReviewsData function
+jest.mock('./path-to-fetchReviewsData', () => ({
+  fetchReviewsData: jest.fn(),
+}));
 
 describe('ViewReviews Component', () => {
-  let fetchStub;
-
-  // Before each test, we stub the fetchReviewsData function
-  beforeEach(() => {
-    fetchStub = sinon.stub(fetchReviewsData);
-  });
-
-  afterEach(() => {
-    fetchStub.restore(); // Restore the original function after each test
-  });
-
-  it('should render reviews if data is fetched successfully', async () => {
-    const reviewsData = [
-      { user: 'Tonmoy', rating: 9, comment: 'Great place to visit' },
-      { user: 'Hasan', rating: 7, comment: 'It was awesome' },
+  it('renders reviews when data is fetched successfully', async () => {
+    // Mock the API response with dummy data
+    const mockReviews = [
+      {
+        user: 'John Doe',
+        rating: 8,
+        comment: 'Great place, will visit again!',
+      },
+      {
+        user: 'Jane Smith',
+        rating: 6,
+        comment: 'Nice, but could be better.',
+      },
     ];
+    require('./path-to-fetchReviewsData').fetchReviewsData.mockResolvedValue(mockReviews);
 
-    // Mock the fetchReviewsData function to return the sample data
-    fetchStub.resolves(reviewsData);
+    render(<ViewReviews place="Paris" />);
 
-    render(<ViewReviews place="Beach" />);
+    // Wait for the component to finish loading data
+    await waitFor(() => screen.getByText('Paris Reviews'));
 
-    // Wait for the reviews to be rendered
-    await waitFor(() => screen.getByText('Beach Reviews'));
-
-    // Check if the reviews are rendered correctly
-    expect(screen.getByText('Tonmoy')).to.exist;
-    expect(screen.getByText('Rating: 9 / 10')).to.exist;
-    expect(screen.getByText('Great place to visit')).to.exist;
-    expect(screen.getByText('Hasan')).to.exist;
-    expect(screen.getByText('Rating: 7 / 10')).to.exist;
-    expect(screen.getByText('It was awesome')).to.exist;
+    // Verify the reviews are displayed
+    expect(screen.getByText('Paris Reviews')).toBeTruthy();
+    expect(screen.getByText('John Doe')).toBeTruthy();
+    expect(screen.getByText('Rating: 8 / 10')).toBeTruthy();
+    expect(screen.getByText('Great place, will visit again!')).toBeTruthy();
+    expect(screen.getByText('Jane Smith')).toBeTruthy();
+    expect(screen.getByText('Rating: 6 / 10')).toBeTruthy();
+    expect(screen.getByText('Nice, but could be better.')).toBeTruthy();
   });
 
-  it('should show an error message if there is an error fetching reviews', async () => {
-    // Mock the fetchReviewsData function to throw an error
-    fetchStub.rejects(new Error('Error fetching reviews'));
+  it('renders an error message when fetching reviews fails', async () => {
+    // Mock an API error
+    require('./path-to-fetchReviewsData').fetchReviewsData.mockRejectedValue(new Error('Error fetching reviews'));
 
-    render(<ViewReviews place="Beach" />);
+    render(<ViewReviews place="Paris" />);
 
-    // Wait for the error message to be rendered
+    // Wait for the error to appear
     await waitFor(() => screen.getByText('Error fetching reviews'));
 
-    // Check if the error message is displayed
-    expect(screen.getByText('Error fetching reviews')).to.exist;
+    // Verify the error message is displayed
+    expect(screen.getByText('Error fetching reviews')).toBeTruthy();
   });
 });

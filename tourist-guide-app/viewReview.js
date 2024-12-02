@@ -11,8 +11,7 @@ import { View, Text, FlatList, StyleSheet } from "react-native";
  */
 const fetchReviewsData = async (place) => {
   try {
-    // Replace 'localhost' with your IP address if on a physical device
-    const response = await fetch(`http://localhost:5000/reviews/${place}`);
+    const response = await fetch(`http://localhost:500/reviews/${place}`);
     const data = await response.json();
 
     if (!response.ok) {
@@ -97,14 +96,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "red", // Red background
+    backgroundColor: "red",
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 20,
-    color: "#fff", // White title for contrast
+    color: "#fff",
   },
   card: {
     backgroundColor: "#fff",
