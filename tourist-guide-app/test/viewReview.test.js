@@ -13,12 +13,12 @@ describe('ViewReviews Component', () => {
     // Mock the API response with dummy data
     const mockReviews = [
       {
-        user: 'John Doe',
+        user: 'Tonmoy',
         rating: 8,
         comment: 'Great place, will visit again!',
       },
       {
-        user: 'Jane Smith',
+        user: 'Jawad',
         rating: 6,
         comment: 'Nice, but could be better.',
       },
