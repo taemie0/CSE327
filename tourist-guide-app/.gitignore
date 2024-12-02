@@ -53,7 +53,7 @@ ios/build/
 ios/DerivedData/
 
 # Temporary files
-*.log
+# *.log
 *.tmp
 
 # System-specific files
