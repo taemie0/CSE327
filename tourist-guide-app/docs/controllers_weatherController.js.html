@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/weatherController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/weatherController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { fetchWeatherData, fetchLocationsData, fetchAlertsData } from '../models/weatherModel';
+
+/**
+ * Fetches the weather forecast for a specific city or location.
+ * 
+ * This function retrieves the weather data from the weather model, processes it (if needed),
+ * and returns the data to be used in the View.
+ *
+ * @async
+ * @function getWeatherForecast
+ * @param {Object} params - Parameters for fetching weather data (e.g., city name).
+ * @returns {Object} The weather data object returned from the model.
+ * @throws {Error} Throws an error if the weather data retrieval fails.
+ * 
+ * @example
+ * // Usage example
+ * const weatherData = await getWeatherForecast({ city: 'New York' });
+ */
+export const getWeatherForecast = async (params) => {
+  try {
+    // Fetch the weather data from the model
+    const weatherData = await fetchWeatherData(params);
+
+    if (!weatherData) {
+      throw new Error('Failed to retrieve weather data');
+    }
+
+    // // Process or transform the data if needed
+    // const processedData = {
+    //   temperature: weatherData.current.temp_c,  // Example: Current temperature in Celsius
+    //   condition: weatherData.current.condition.text, // Weather condition description
+    //   city: weatherData.location.name,  // City name
+    //   forecast: weatherData.forecast.forecastday,  // Weather forecast for the coming days
+    // };
+
+    // return processedData; // Return the processed data to the View
+    return weatherData; // Return raw weather data (or processed data if needed)
+  } catch (error) {
+    console.error('Error in getWeatherForecast:', error);
+    throw error; // Propagate the error to be handled by the View or UI
+  }
+};
+
+/**
+ * Fetches location details based on parameters (e.g., city name).
+ * 
+ * This function retrieves location data from the model and returns it, optionally processed
+ * to return relevant details like city, region, country, etc.
+ *
+ * @async
+ * @function getLocations
+ * @param {Object} params - Parameters for fetching location data (e.g., city name).
+ * @returns {Array} An array of location objects, each containing details such as name, region, country, etc.
+ * @throws {Error} Throws an error if the location data retrieval fails.
+ * 
+ * @example
+ * // Usage example
+ * const locations = await getLocations({ city: 'New York' });
+ */
+export const getLocations = async (params) => {
+  try {
+    // Fetch the location data from the model
+    const locationData = await fetchLocationsData(params);
+
+    if (!locationData) {
+      throw new Error('Failed to retrieve location data');
+    }
+
+    // // Process or transform the data if needed
+    // const locations = locationData.map(location => ({
+    //   name: location.name,
+    //   region: location.region,
+    //   country: location.country,
+    //   lat: location.lat,
+    //   lon: location.lon,
+    // }));
+
+    // return locations; // Return the processed location data to the View
+    return locationData; // Return raw location data (or processed data if needed)
+  } catch (error) {
+    console.error('Error in getLocations:', error);
+    throw error;
+  }
+};
+
+
+/**
+ * Fetches weather alerts for a specific city.
+ * 
+ * This function retrieves weather alerts from an external source for a given city.
+ * It returns an array of alerts, each containing details such as headline, severity,
+ * description, etc.
+ *
+ * @async
+ * @function getWeatherAlerts
+ * @param {string} cityName - The name of the city for which weather alerts are to be fetched.
+ * @returns {Array|null} An array of weather alerts or null if no alerts are found.
+ * @throws {Error} Throws an error if fetching weather alerts fails.
+ * 
+ * @example
+ * // Usage example
+ * const alerts = await getWeatherAlerts('New York');
+ */
+export const getWeatherAlerts = async (params) => {
+  try {
+    // const response = await axios.get(alertsEndpoint({ params }));
+    const response = await fetchAlertsData(params);
+
+    const alerts = response.data.alerts?.alert; // Extract alerts from the response
+    if (!alerts || alerts.length === 0) {
+      return null; // No alerts available
+    }
+
+    // Return relevant details of each alert
+    return alerts.map(alert => ({
+      headline: alert.headline,
+      severity: alert.severity,
+      event: alert.event,
+      description: alert.desc,
+      instruction: alert.instruction,
+      areas: alert.areas,
+      effective: alert.effective,
+      expires: alert.expires
+    }));
+  } catch (error) {
+    console.error('Error fetching weather alerts:', error);
+    return null; // Return null if error occurs while fetching alerts
+  }
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#WeatherAlertNotifier">WeatherAlertNotifier</a></li><li><a href="global.html#WeatherDayCard">WeatherDayCard</a></li><li><a href="global.html#WeatherScreen">WeatherScreen</a></li><li><a href="global.html#alertsEndpoint">alertsEndpoint</a></li><li><a href="global.html#apiCall">apiCall</a></li><li><a href="global.html#fetchAlertsData">fetchAlertsData</a></li><li><a href="global.html#fetchLocationsData">fetchLocationsData</a></li><li><a href="global.html#fetchWeatherData">fetchWeatherData</a></li><li><a href="global.html#forecastEndpoint">forecastEndpoint</a></li><li><a href="global.html#getData">getData</a></li><li><a href="global.html#getLocations">getLocations</a></li><li><a href="global.html#getWeatherAlerts">getWeatherAlerts</a></li><li><a href="global.html#getWeatherForecast">getWeatherForecast</a></li><li><a href="global.html#handleTextDebounce">handleTextDebounce</a></li><li><a href="global.html#locationsEndpoint">locationsEndpoint</a></li><li><a href="global.html#sendPushNotification">sendPushNotification</a></li><li><a href="global.html#storeData">storeData</a></li><li><a href="global.html#useLocation">useLocation</a></li><li><a href="global.html#usePushNotification">usePushNotification</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Dec 02 2024 11:48:53 GMT+0600 (Bangladesh Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

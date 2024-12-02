@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/screens/WeatherScreen.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/screens/WeatherScreen.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * WeatherScreen Component
+ *
+ * This component renders the main home screen for a weather forecast application. It allows users to search for cities,
+ * view current weather conditions, and check the weekly weather forecast.
+ * It uses the OpenWeatherMap API to fetch weather data for selected cities.
+ * 
+ * @component
+ * @example
+ * return (
+ *   &lt;WeatherScreen />
+ * )
+ */
+
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  ScrollView,
+  StatusBar,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
+import { theme } from '../theme/theme';
+import { debounce } from 'lodash';
+import { weatherImages } from '../../utils/weatherIcon';
+import WeatherDayCard from '../components/WeatherDayCard';
+import CurrentWeatherForecast from '../components/CurrentWeatherForecast';
+
+import * as Progress from 'react-native-progress';
+import { MagnifyingGlassIcon } from 'react-native-heroicons/outline';
+import { CalendarDaysIcon, MapPinIcon } from 'react-native-heroicons/solid';
+
+import { getWeatherForecast, getLocations, getAlerts } from '../../controllers/weatherController';
+import { storeData, getData } from '../../models/asyncStorage';
+
+/**
+ * WeatherScreen component renders the weather data for the user, including the current weather,
+ * the search functionality for cities, and the weekly forecast.
+ * 
+ * @function WeatherScreen
+ * @returns {JS.Element} Rendered component
+ */
+export default function WeatherScreen() {
+  /**
+   * State hooks for managing component state.
+   */
+  const [showSearch, toggleSearch] = useState(false);  // State to toggle search input visibility
+  const [locations, setLocations] = useState([]);     // State to store list of matching locations from search
+  const [weather, setWeather] = useState({});          // State to store weather data
+  const [loading, setLoading] = useState(true);        // State to manage loading state
+
+  /**
+   * Handles the selection of a location from the search results.
+   * It fetches the weather forecast for the selected city.
+   *
+   * @param {Object} loc - The selected location object containing name and country.
+   * @param {string} loc.name - The name of the city.
+   * @param {string} loc.country - The country the city is located in.
+   */
+  const handleLocation = (loc) => {
+    setLocations([]);   // Clear previous search results
+    toggleSearch(false); // Hide search input
+    setLoading(true);    // Set loading to true while fetching data
+    getWeatherForecast({ cityName: loc.name, days: '7' }).then((data) => {
+      setWeather(data);  // Set weather data for the selected city
+      setLoading(false); // Set loading to false after data is fetched
+      storeData('city', loc.name); // Store the selected city for future use
+    });
+  };
+
+  /**
+   * Handles the search input and fetches matching locations.
+   * This function fetches the locations as the user types into the search input field.
+   *
+   * @param {string} value - The search input value (city name).
+   */
+  const handleSearch = (value) => {
+    if (value.length > 0) {
+      // Call the controller function to fetch locations matching the search query
+      getLocations({ cityName: value })
+        .then((data) => {
+          setLocations(data); // Update the state with the matching locations
+        })
+        .catch((error) => {
+          console.error('Error in fetchLocations:', error); // Handle any errors during the fetch
+        });
+    }
+  };
+
+  /**
+   * Fetches the weather data for the saved or default city (if no city is saved).
+   * This is called when the component mounts.
+   */
+  useEffect(() => {
+    fetchMyWeatherData();
+  }, []);
+
+  /**
+   * Fetches weather data for the user's saved city or a default city.
+   * If no city is saved, it defaults to 'Lagos'.
+   * 
+   * @async
+   */
+  const fetchMyWeatherData = async () => {
+    let myCity = await getData('city'); // Retrieve saved city from AsyncStorage
+    let cityName = myCity || 'Lagos'; // Use 'Lagos' as default if no city is saved
+    getWeatherForecast({ cityName, days: '7' }).then((data) => {
+      setWeather(data); // Update state with weather data
+      setLoading(false); // Set loading to false
+    });
+  };
+
+  /**
+   * Debounced version of the handleSearch function to improve performance.
+   * It waits for the user to stop typing for 1.2 seconds before triggering the search.
+   * 
+   * @function handleTextDebounce
+   */
+  const handleTextDebounce = useCallback(debounce(handleSearch, 1200), []);
+
+  const { current, location } = weather;
+
+  return (
+    &lt;View className="flex-1 relative">
+      {/* Status Bar */}
+      &lt;StatusBar style="light" />
+
+      {/* Background Image */}
+      &lt;Image
+        blurRadius={70}
+        source={require('../../assets/images/bg.png')}
+        className="absolute w-full h-full"
+        resizeMode="cover"
+      />
+      {loading ? (
+        &lt;View className="flex flex-1 justify-center items-center">
+          &lt;Progress.CircleSnail size={140} thickness={10} indeterminate={true} color="white" />
+        &lt;/View>
+      ) : (
+        &lt;SafeAreaView className="flex flex-1">
+          {/* Search Section */}
+          &lt;View style={{ height: '7%' }} className="mx-4 relative z-50">
+            &lt;View
+              className="flex-row justify-end items-center rounded-full"
+              style={{
+                backgroundColor: showSearch ? theme.bgWhite(0.2) : 'transparent',
+              }}
+            >
+              {showSearch ? (
+                &lt;TextInput
+                  onChangeText={handleTextDebounce}
+                  placeholder="Search city"
+                  placeholderTextColor="lightgray"
+                  className="pl-6 h-10 flex-1 text-base text-white"
+                  style={{ borderRadius: 30, paddingLeft: 12 }}
+                />
+              ) : null}
+
+              &lt;TouchableOpacity
+                onPress={() => toggleSearch(!showSearch)}
+                style={{ backgroundColor: theme.bgWhite(0.3) }}
+                className="rounded-full p-3 m-1"
+              >
+                &lt;MagnifyingGlassIcon size="25" color="white" />
+              &lt;/TouchableOpacity>
+            &lt;/View>
+            {locations.length > 0 &amp;&amp; showSearch ? (
+              &lt;View className="absolute top-16 w-full bg-gray-300 rounded-3xl shadow-3xl p-4">
+                {/* List of locations */}
+                {locations.map((loc, index) => {
+                  let showBorder = index + 1 !== locations.length;
+                  let borderClass = showBorder ? 'border-b-2 border-b-gray-400' : '';
+                  return (
+                    &lt;TouchableOpacity
+                      onPress={() => handleLocation(loc)}
+                      key={index}
+                      className={`flex-row items-center p-3 border-0 px-4 mb-1 ${borderClass}`}
+                    >
+                      &lt;MapPinIcon size="20" color="gray" />
+                      &lt;Text className="text-black text-lg ml-2">
+                        {loc?.name}, {loc?.country}
+                      &lt;/Text>
+                    &lt;/TouchableOpacity>
+                  );
+                })}
+              &lt;/View>
+            ) : null}
+          &lt;/View>
+          {/* Current Weather Forecast */}
+          &lt;CurrentWeatherForecast location={location} current={current} weather={weather} />
+
+          {/* Weekly Forecast */}
+          &lt;View className="mb-2 space-y-3">
+            &lt;View className="flex-row items-center mx-5 space-x-2 mb-2">
+              &lt;CalendarDaysIcon size="22" color="white" />
+              &lt;Text className="text-white text-base"> Weekly Forecast&lt;/Text>
+            &lt;/View>
+
+            &lt;ScrollView
+              horizontal
+              contentContainerStyle={{ paddingHorizontal: 15 }}
+              showsHorizontalScrollIndicator={false}
+            >
+              {weather?.forecast?.forecastday?.map((item, index) => {
+                let date = new Date(item.date);
+                let options = { weekday: 'long' };
+                let dayName = date.toLocaleDateString('en-US', options).split(',')[0];
+
+                return (
+                  &lt;WeatherDayCard
+                    key={index}
+                    dayName={dayName}
+                    avgTemp={item?.day?.avgtemp_c}
+                    conditionText={item?.day?.condition?.text}
+                  />
+                );
+              })}
+            &lt;/ScrollView>
+          &lt;/View>
+        &lt;/SafeAreaView>
+      )}
+    &lt;/View>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#WeatherAlertNotifier">WeatherAlertNotifier</a></li><li><a href="global.html#WeatherDayCard">WeatherDayCard</a></li><li><a href="global.html#WeatherScreen">WeatherScreen</a></li><li><a href="global.html#alertsEndpoint">alertsEndpoint</a></li><li><a href="global.html#apiCall">apiCall</a></li><li><a href="global.html#fetchAlertsData">fetchAlertsData</a></li><li><a href="global.html#fetchLocationsData">fetchLocationsData</a></li><li><a href="global.html#fetchWeatherData">fetchWeatherData</a></li><li><a href="global.html#forecastEndpoint">forecastEndpoint</a></li><li><a href="global.html#getData">getData</a></li><li><a href="global.html#getLocations">getLocations</a></li><li><a href="global.html#getWeatherAlerts">getWeatherAlerts</a></li><li><a href="global.html#getWeatherForecast">getWeatherForecast</a></li><li><a href="global.html#handleTextDebounce">handleTextDebounce</a></li><li><a href="global.html#locationsEndpoint">locationsEndpoint</a></li><li><a href="global.html#sendPushNotification">sendPushNotification</a></li><li><a href="global.html#storeData">storeData</a></li><li><a href="global.html#useLocation">useLocation</a></li><li><a href="global.html#usePushNotification">usePushNotification</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Dec 02 2024 11:48:53 GMT+0600 (Bangladesh Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

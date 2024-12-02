@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/components/CurrentWeatherForecast.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/components/CurrentWeatherForecast.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import { View, Text, Image } from 'react-native';
+import { weatherImages } from '../../utils/weatherIcon';
+
+/**
+ * Displays the current weather forecast.
+ *
+ * @param {Object} props - Component properties.
+ * @param {Object} props.location - Location object.
+ * @param {Object} props.current - Current weather data.
+ * @param {Object} props.weather - Weather forecast data.
+ *
+ * @returns {JS.Element} A JS element representing the current weather forecast.
+ */
+export default function CurrentWeatherForecast({ location, current, weather }) {
+  return (
+    &lt;View className="mx-4 flex justify-around flex-1 mb-4">
+      {/* Location */}
+
+      &lt;View className="flex-row justify-center items-center mb-2">
+        &lt;Text className="text-white text-center text-2xl font-bold">
+          {location?.name}
+          &lt;Text className="text-lg font-semibold text-gray-300">{' ' + location?.country}&lt;/Text>
+        &lt;/Text>
+      &lt;/View>
+
+      {/* Weather Image */}
+      &lt;View className="flex-row justify-center mb-4">
+        &lt;Image
+          source={weatherImages[current?.condition?.text] || weatherImages['other']}
+          className="w-52 h-52"
+        />
+      &lt;/View>
+
+      {/* Temperature and Condition */}
+      &lt;View className="space-y-2 mb-4">
+        &lt;Text className="text-center font-bold text-white text-6xl">{current?.temp_c}&amp;#176;C&lt;/Text>
+
+        &lt;Text className="text-white font-semibold text-base text-center">
+          {'Feels Like: ' + current?.feelslike_c}&amp;#176;C
+        &lt;/Text>
+
+        &lt;Text className="text-center text-white text-xl tracking-widest">
+          {current?.condition?.text}
+        &lt;/Text>
+      &lt;/View>
+
+      {/* Additional Info */}
+      &lt;View className="flex-row justify-between mx-4">
+        {/* Wind */}
+        &lt;View className="flex-row space-x-2 items-center">
+          &lt;Image source={require('../../assets/icons/wind.png')} className="h-6 w-6" />
+          &lt;Text className="text-white font-semibold text-base">{' ' + current?.wind_kph} km/h&lt;/Text>
+        &lt;/View>
+
+        {/* Humidity */}
+        &lt;View className="flex-row space-x-2 items-center">
+          &lt;Image source={require('../../assets/icons/drop.png')} className="h-6 w-6" />
+          &lt;Text className="text-white font-semibold text-base">{' ' + current?.humidity}%&lt;/Text>
+        &lt;/View>
+
+        {/* Sunrise */}
+        &lt;View className="flex-row space-x-2 items-center">
+          &lt;Image source={require('../../assets/icons/sun.png')} className="h-6 w-6" />
+          &lt;Text className="text-white font-semibold text-base">
+            {' ' + weather?.forecast?.forecastday[0]?.astro?.sunrise}
+          &lt;/Text>
+        &lt;/View>
+      &lt;/View>
+    &lt;/View>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#WeatherAlertNotifier">WeatherAlertNotifier</a></li><li><a href="global.html#WeatherDayCard">WeatherDayCard</a></li><li><a href="global.html#WeatherScreen">WeatherScreen</a></li><li><a href="global.html#alertsEndpoint">alertsEndpoint</a></li><li><a href="global.html#apiCall">apiCall</a></li><li><a href="global.html#fetchAlertsData">fetchAlertsData</a></li><li><a href="global.html#fetchLocationsData">fetchLocationsData</a></li><li><a href="global.html#fetchWeatherData">fetchWeatherData</a></li><li><a href="global.html#forecastEndpoint">forecastEndpoint</a></li><li><a href="global.html#getData">getData</a></li><li><a href="global.html#getLocations">getLocations</a></li><li><a href="global.html#getWeatherAlerts">getWeatherAlerts</a></li><li><a href="global.html#getWeatherForecast">getWeatherForecast</a></li><li><a href="global.html#handleTextDebounce">handleTextDebounce</a></li><li><a href="global.html#locationsEndpoint">locationsEndpoint</a></li><li><a href="global.html#sendPushNotification">sendPushNotification</a></li><li><a href="global.html#storeData">storeData</a></li><li><a href="global.html#useLocation">useLocation</a></li><li><a href="global.html#usePushNotification">usePushNotification</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Dec 02 2024 11:48:53 GMT+0600 (Bangladesh Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

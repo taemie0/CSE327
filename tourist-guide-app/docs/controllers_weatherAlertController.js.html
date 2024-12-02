@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/weatherAlertController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/weatherAlertController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { getWeatherAlerts } from '../models/weatherModel';
+import { useEffect, useState } from 'react';
+import { sendPushNotification } from '../utils/pushNotificationUtils'; // To send push notifications
+import { mockWeatherAlerts } from '../models/mock/mockWeatherAlerts';
+import usePushNotification from '../hooks/usePushNotification'; // To get expo push token
+
+/**
+ * `WeatherAlertNotifier` is a React component that checks for weather alerts for a given city
+ * and sends push notifications when alerts are found.
+ *
+ * It requires an `expoPushToken` (obtained from a custom hook) to send notifications.
+ * The component checks for weather alerts on mount and periodically every 10 minutes.
+ * If a valid push token is available, it sends the alerts to the user.
+ *
+ * @component
+ * @example
+ * // Usage example
+ * &lt;WeatherAlertNotifier cityName="New York" />
+ *
+ * @param {Object} props - The props passed to the component.
+ * @param {string} props.cityName - The name of the city to fetch weather alerts for.
+ */
+
+const WeatherAlertNotifier = ({ cityName }) => {
+  const expoPushToken = usePushNotification(); // Get the push token
+  const [isTokenAvailable, setIsTokenAvailable] = useState(false); // State to track token availability
+
+  useEffect(() => {
+    /**
+     * Effect to update token availability status based on the expoPushToken.
+     */
+    if (expoPushToken) {
+      setIsTokenAvailable(true);
+    } else {
+      setIsTokenAvailable(false);
+    }
+  }, [expoPushToken]); // Effect will run when expoPushToken changes
+
+  useEffect(() => {
+    /**
+     * Effect to fetch and send weather alerts if cityName and expoPushToken are available.
+     */
+    if (!cityName) return; // Don't fetch alerts if cityName is not available
+    if (!isTokenAvailable) {
+      console.log('No expo push token available.');
+      return;
+    }
+
+    console.log('Expo push token:', expoPushToken); // Log expoPushToken for debugging
+   
+    /**
+     * Effect to fetch and send weather alerts if cityName and expoPushToken are available.
+     */
+    const checkWeatherAlerts = async () => {
+      console.log('Checking weather alerts for:', cityName); // Log cityName
+      try {
+        // const alerts = await getWeatherAlerts(cityName); // Uncomment this for real API
+        const alerts = mockWeatherAlerts; // Use mock data for testing
+
+        if (alerts &amp;&amp; alerts.length > 0) {
+          alerts.forEach((alert) => {
+            console.log('Sending alert notification:', alert); // Log alert to ensure it's being fetched correctly
+            sendPushNotification(expoPushToken, alert); // Send push notification using util
+          });
+        } else {
+          console.log('No weather alerts found for', cityName); // Log if no alerts are found
+        }
+      } catch (error) {
+        console.error('Error fetching weather alerts:', error);
+      }
+    };
+
+    // Check for weather alerts once on component mount
+    checkWeatherAlerts();
+
+    // Check for weather alerts every 10 minutes (600,000 ms)
+    const intervalId = setInterval(checkWeatherAlerts, 10 * 60 * 1000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [cityName, isTokenAvailable, expoPushToken]); // Dependency array: re-run when these change
+
+  return null; // This component does not render anything
+};
+
+export default WeatherAlertNotifier;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#WeatherAlertNotifier">WeatherAlertNotifier</a></li><li><a href="global.html#WeatherDayCard">WeatherDayCard</a></li><li><a href="global.html#WeatherScreen">WeatherScreen</a></li><li><a href="global.html#alertsEndpoint">alertsEndpoint</a></li><li><a href="global.html#apiCall">apiCall</a></li><li><a href="global.html#fetchAlertsData">fetchAlertsData</a></li><li><a href="global.html#fetchLocationsData">fetchLocationsData</a></li><li><a href="global.html#fetchWeatherData">fetchWeatherData</a></li><li><a href="global.html#forecastEndpoint">forecastEndpoint</a></li><li><a href="global.html#getData">getData</a></li><li><a href="global.html#getLocations">getLocations</a></li><li><a href="global.html#getWeatherAlerts">getWeatherAlerts</a></li><li><a href="global.html#getWeatherForecast">getWeatherForecast</a></li><li><a href="global.html#handleTextDebounce">handleTextDebounce</a></li><li><a href="global.html#locationsEndpoint">locationsEndpoint</a></li><li><a href="global.html#sendPushNotification">sendPushNotification</a></li><li><a href="global.html#storeData">storeData</a></li><li><a href="global.html#useLocation">useLocation</a></li><li><a href="global.html#usePushNotification">usePushNotification</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Dec 02 2024 11:48:53 GMT+0600 (Bangladesh Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
