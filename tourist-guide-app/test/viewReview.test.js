@@ -14,37 +14,37 @@ describe('ViewReviews Component', () => {
     const mockReviews = [
       {
         user: 'Tonmoy',
-        rating: 8,
-        comment: 'Great place, will visit again!',
+        rating: 7,
+        comment: 'It was awsome',
       },
       {
         user: 'Jawad',
-        rating: 6,
-        comment: 'Nice, but could be better.',
+        rating: 10,
+        comment: 'A beautiful spot.',
       },
     ];
     require('./path-to-fetchReviewsData').fetchReviewsData.mockResolvedValue(mockReviews);
 
-    render(<ViewReviews place="Paris" />);
+    render(<ViewReviews place="Mountain" />);
 
     // Wait for the component to finish loading data
-    await waitFor(() => screen.getByText('Paris Reviews'));
+    await waitFor(() => screen.getByText('Mountain Reviews'));
 
     // Verify the reviews are displayed
-    expect(screen.getByText('Paris Reviews')).toBeTruthy();
-    expect(screen.getByText('John Doe')).toBeTruthy();
-    expect(screen.getByText('Rating: 8 / 10')).toBeTruthy();
-    expect(screen.getByText('Great place, will visit again!')).toBeTruthy();
-    expect(screen.getByText('Jane Smith')).toBeTruthy();
-    expect(screen.getByText('Rating: 6 / 10')).toBeTruthy();
-    expect(screen.getByText('Nice, but could be better.')).toBeTruthy();
+    expect(screen.getByText('Mountain Reviews')).toBeTruthy();
+    expect(screen.getByText('Tonmoy')).toBeTruthy();
+    expect(screen.getByText('Rating: 7 / 10')).toBeTruthy();
+    expect(screen.getByText('It was awsome')).toBeTruthy();
+    expect(screen.getByText('Jawad')).toBeTruthy();
+    expect(screen.getByText('Rating: 10 / 10')).toBeTruthy();
+    expect(screen.getByText('A beautiful spot')).toBeTruthy();
   });
 
   it('renders an error message when fetching reviews fails', async () => {
     // Mock an API error
     require('./path-to-fetchReviewsData').fetchReviewsData.mockRejectedValue(new Error('Error fetching reviews'));
 
-    render(<ViewReviews place="Paris" />);
+    render(<ViewReviews place="Mountain" />);
 
     // Wait for the error to appear
     await waitFor(() => screen.getByText('Error fetching reviews'));
