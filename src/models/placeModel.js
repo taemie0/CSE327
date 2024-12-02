@@ -10,12 +10,19 @@ import GlobalApi from '../views/services/GlobalApi';
  * @returns {Array} An array of nearby places (from the API response), or an empty array if an error occurs.
  * @throws {Error} Logs an error to the console if the API call fails.
  */
+export const getNearbyPlaces = async (latitude, longitude, type) => {
+  try {
+    const response = await GlobalApi.nearByPlace(latitude, longitude, type);
+    if (!response || !response.data || !response.data.results) {
+      throw new Error('Invalid API response structure');
+    }
+    return response.data.results;
+  } catch (error) {
+    // Log the error with more detailed information
+    // console.error("Error fetching places: ", error.message);
 
-export const getNearbyPlaces = (latitude, longitude, type) => {
-  return GlobalApi.nearByPlace(latitude, longitude, type)
-    .then(response => response.data.results)
-    .catch(error => {
-      // console.error("Error fetching places: ", error);
-      return [];
-    });
+    // Optionally, you can implement retry logic here
+    // Or return a fallback message/data for the UI (e.g., empty array or a default message)
+    return [];
+  }
 };

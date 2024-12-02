@@ -18,6 +18,8 @@ const nearByPlace = (lat, lng, type) => {
   return axios.get(url);
 };
 
+
+
 /**
  * Fetches places based on a search query (text search).
  *
