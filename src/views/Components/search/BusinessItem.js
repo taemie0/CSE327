@@ -1,7 +1,6 @@
-import { View, Text, Image } from 'react-native'
-import React from 'react'
-import { AntDesign } from '@expo/vector-icons'
-
+import { View, Text, Image } from "react-native";
+import React from "react";
+import { AntDesign } from "@expo/vector-icons";
 
 /**
  * BusinessItem component renders a card displaying a business/place with its photo, name, vicinity, and rating.
@@ -12,11 +11,11 @@ import { AntDesign } from '@expo/vector-icons'
  * @param {Object} props - The component's props.
  * @param {Object} props.place - A place object containing information about a business.
  * @param {string} props.place.name - The name of the place.
- * @param {string} props.place.vicinity - The vicinity or address of the place.
- * @param {string} props.place.formatted_address - A formatted address of the place if `vicinity` is unavailable.
+ * @param {string} props.place.vicinity - The vicinity or address of the place (optional, will use `formatted_address` if unavailable).
+ * @param {string} [props.place.formatted_address] - A formatted address of the place (optional, used if `vicinity` is unavailable).
  * @param {number} props.place.rating - The rating of the place (out of 5).
- * @param {Array} props.place.photos - Array of photo objects from Google Places API, containing `photo_reference`.
- * 
+ * @param {Array} [props.place.photos] - Array of photo objects from Google Places API, containing `photo_reference` (optional).
+ *
  * @returns {JSX.Element} A card component displaying the place's photo, name, address, and rating.
  */
 export default function BusinessItem({ place }) {
@@ -36,14 +35,11 @@ export default function BusinessItem({ place }) {
         />
       ) : (
         <Image
-          source={require('../../../assets/icon.png')}
-          className="w-30 h-20 rounded-md"
+          source={require("../../../assets/icon.png")}
+          className="w-20 h-20 rounded-md"
         />
       )}
-      <Text
-        numberOfLines={2}
-        className="font-raleway-bold text-lg mt-1.5"
-      >
+      <Text numberOfLines={2} className="font-raleway-bold text-lg mt-1.5">
         {place.name}
       </Text>
       <Text
@@ -57,5 +53,5 @@ export default function BusinessItem({ place }) {
         <Text>{place.rating}</Text>
       </View>
     </View>
-  )
+  );
 }
