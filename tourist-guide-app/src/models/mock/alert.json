@@ -1,0 +1,46 @@
+{
+  "location": {
+    "name": "Dhaka",
+    "region": "",
+    "country": "Bangladesh",
+    "lat": 23.7231,
+    "lon": 90.4086,
+    "tz_id": "Asia/Dhaka",
+    "localtime_epoch": 1733034862,
+    "localtime": "2024-12-01 12:34"
+  },
+  "alerts": {
+    "alert": [
+      {
+        "headline": "Flood Warning issued December 01 at 9:47 PM BDT until December 03 at 6:15 AM BDT by Bangladesh Meteorological Department",
+        "msgtype": "Alert",
+        "severity": "Moderate",
+        "urgency": "Expected",
+        "areas": "Dhaka, Tangail, Manikganj",
+        "category": "Met",
+        "certainty": "Likely",
+        "event": "Flood Warning",
+        "note": "Alert for Dhaka, Tangail, and Manikganj districts issued by the Bangladesh Meteorological Department",
+        "effective": "2024-12-01T21:47:00+06:00",
+        "expires": "2024-12-03T06:15:00+06:00",
+        "desc": "...The Flood Warning continues for the following rivers in Bangladesh...\nJamuna River at Tangail affecting Dhaka, Tangail, and Manikganj Districts.\nGanges River at Manikganj affecting Manikganj and surrounding areas.\n...The Flood Warning is in effect until Thursday morning...\nThe Flood Warning continues for the Jamuna River at Tangail.\n* Until Thursday morning.\n* At 9:28 PM BDT Tuesday the river stage was 12.2 meters.\n* Flood stage is 12.0 meters.\n* Minor flooding is occurring and minor flooding is forecast.\n* Recent Activity...The maximum river stage in the 24 hours ending at 9:28 PM BDT was 12.5 meters.\n* Forecast...The river is expected to rise to 12.3 meters just after midnight tonight. It will then fall below flood stage tomorrow morning to 11.8 meters and begin rising again tomorrow evening. It will rise to 12.1 meters early Thursday morning. It will then fall again and remain below flood stage.\n* Impact...At 12.0 meters, Flooding occurs in low-lying areas along the riverbank in Tangail and parts of Dhaka.\n* Flood History...This crest compares to a previous crest of 12.4 meters on 12/03/2020.",
+        "instruction": "A Flood Warning means that flooding is imminent or occurring. All interested parties should take necessary precautions immediately. Motorists should not attempt to drive around barricades or drive cars through flooded areas. Caution is urged when walking near riverbanks. Additional information is available at www.weather.gov.bd. The next statement will be issued Wednesday morning at 10:00 AM BDT."
+      },
+      {
+        "headline": "Flood Warning issued December 01 at 9:47 PM BDT until December 05 at 4:00 AM BDT by Bangladesh Meteorological Department",
+        "msgtype": "Alert",
+        "severity": "Moderate",
+        "urgency": "Expected",
+        "areas": "Khulna, Barishal",
+        "category": "Met",
+        "certainty": "Likely",
+        "event": "Flood Warning",
+        "note": "Alert for Khulna and Barishal districts issued by the Bangladesh Meteorological Department",
+        "effective": "2024-12-01T21:47:00+06:00",
+        "expires": "2024-12-05T04:00:00+06:00",
+        "desc": "...The Flood Warning continues for the following rivers in Bangladesh...\nPadma River at Khulna affecting Khulna and Barishal Districts.\nKarnaphuli River at Chittagong affecting Chittagong District.\n...The Flood Warning is in effect until Friday morning...\nThe Flood Warning continues for the Padma River at Khulna.\n* Until late Friday night.\n* At 9:00 PM BDT Tuesday the river stage was 8.0 meters.\n* Flood stage is 7.8 meters.\n* Minor flooding is occurring and minor flooding is forecast.\n* Recent Activity...The maximum river stage in the 24 hours ending at 9:00 PM BDT was 8.3 meters.\n* Forecast...The river is expected to fall below flood stage early Friday morning and continue falling to 7.4 meters by Sunday evening.\n* Impact...At 7.8 meters, Flooding begins in low-lying areas near Khulna and Barishal.\n* Impact...At 8.0 meters, Portions of the Padma River embankment become flooded.\n* Flood History...This crest compares to a previous crest of 8.2 meters on 12/02/2020.",
+        "instruction": "A Flood Warning means that flooding is imminent or occurring. All interested parties should take necessary precautions immediately. Motorists should not attempt to drive around barricades or drive cars through flooded areas. Caution is urged when walking near riverbanks. Additional information is available at www.weather.gov.bd. The next statement will be issued Wednesday morning at 10:00 AM BDT."
+      }
+    ]
+  }
+}

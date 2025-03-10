@@ -5,7 +5,7 @@ import { LogBox, Text, View } from 'react-native';
 
 // Screens
 import WeatherScreen from '../views/screens/WeatherScreen';
-import HomeScreen from "../views/screens/HomeScreen";
+// import HomeScreen from "../views/screens/HomeScreen";
 
 // Create a stack navigator
 const Stack = createNativeStackNavigator();

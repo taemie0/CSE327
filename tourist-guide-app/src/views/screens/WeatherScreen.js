@@ -131,7 +131,7 @@ export default function WeatherScreen() {
       {/* Background Image */}
       <Image
         blurRadius={70}
-        source={require('../../assets/images/bg.png')}
+        source={require('../../assets/images/bg11.png')}
         className="absolute w-full h-full"
         resizeMode="cover"
       />
